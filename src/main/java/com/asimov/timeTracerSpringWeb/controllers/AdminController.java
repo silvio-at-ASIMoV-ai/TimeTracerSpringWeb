@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin")
@@ -96,10 +97,14 @@ public class AdminController {
 
     @PostMapping("/edit/times")
     public String saveTime(@ModelAttribute Time time, Model model){
-        Time timeToSave = new Time(time.ID(), time.EmployeeID(), time.ProjectID(),
+        Optional<Time> oldTime = times.findById(time.ID());
+        Time newTime = new Time(time.ID(), time.EmployeeID(), time.ProjectID(),
                 time.PunchedTime(), time.in(), time.InsertUser(), time.InsertTimestamp(),
                 "Admin", new Timestamp(System.currentTimeMillis()));
-        times.save(timeToSave);
+        Log log = new Log(null,"Edit Times", newTime.toString(), oldTime.get().toString(),
+                new Timestamp(System.currentTimeMillis()));
+        times.save(newTime);
+        logs.save(log);
         return goBackToAdminPage(model);
     }
 

@@ -292,8 +292,9 @@
         <thead>
         <tr>
           <th>id</th>
-          <th>Query</th>
-          <th>Previous State</th>
+          <th>Operation</th>
+          <th>New Values</th>
+          <th>Old Values</th>
           <th>Timestamp</th>
           <th>&nbsp;</th>
         </tr>
@@ -301,8 +302,9 @@
         <tbody>
         <tr th:each="log : ${logs}">
           <td th:text="${log.ID}" ></td>
-          <td th:text="${log.Query}" ></td>
-          <td th:text="${log.PreviousState}" ></td>
+          <td th:text="${log.Operation}" ></td>
+          <td th:text="${log.NewValues}" ></td>
+          <td th:text="${log.OldValues}" ></td>
           <td th:text="${log.timestamp}" ></td>
           <td>
             <form action="/admin/view/logs" method="get">

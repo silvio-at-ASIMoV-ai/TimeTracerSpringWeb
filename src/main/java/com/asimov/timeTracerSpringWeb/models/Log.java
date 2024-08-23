@@ -10,9 +10,11 @@ import java.sql.Timestamp;
 public record Log(
         @Id
         Integer ID,
-        String Query,
-        @Column("PREVIOUSSTATE")
-        String PreviousState,
+        String Operation,
+        @Column("NEWVALUES")
+        String NewValues,
+        @Column("OLDVALUES")
+        String OldValues,
         Timestamp timestamp
 ) {
 }
