@@ -11,20 +11,20 @@
     <h2>Time Punch</h2>
     <form action="punch" method="post">
       <div class="container1">
-        <div>Employee: <span th:text="${employeeName}" /> <span th:text="${employeeSurname}" /></div>
+        <div>Employee: <span th:text="${employeeName}"></span> <span th:text="${employeeSurname}"></span></div>
         <div>Time: <span id="clock"><span id="date-time"></span></span><input type="hidden" id="dateTime" name="dateTime"></div>
       </div>
       <div class="container2">
         <div>Projects</div>
-        <select name="chooseProject" size="4" required="true">
+        <select name="chooseProject" size="4" required>
           <option th:each="project : ${projects}"
                   th:value="${project.id}"
-                  th:text="${project.ProjectName}" />
+                  th:text="${project.ProjectName}"></option>
         </select>
       </div>
       <div class="container3">
-        <div></div><input name="inout" type="radio" value="IN" checked >IN</div>
-        <div></div><input name="inout" type="radio" value="OUT">OUT</div>
+        <div><input name="inout" type="radio" value="IN" checked >IN</div>
+        <div><input name="inout" type="radio" value="OUT">OUT</div>
       </div>
       <div class="container4">
         <input type="submit" value="OK">
