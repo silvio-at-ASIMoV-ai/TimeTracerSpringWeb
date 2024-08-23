@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Delete</h1>
-    <form>
+    <form action="delete" method="post">
         <div>Do you really want to delete the record</div>
         <div>with id <span class="bold" th:text="'&quot' + ${id} + '&quot'"></span> in table <span class="bold" th:text="'&quot' + ${table} + '&quot'"></span>?</div>
         <input type="hidden" name="id" th:value="${id}"><input type="hidden" name="table" th:value="${table}">

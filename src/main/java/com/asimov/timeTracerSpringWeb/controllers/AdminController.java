@@ -174,4 +174,22 @@ public class AdminController {
         return goBackToAdminPage(model);
     }
 
+    @PostMapping("/delete/delete")
+    public String delete(String id, String table, Model model){
+        switch (table) {
+            case "times": times.deleteById(Integer.parseInt(id));
+                break;
+            case "employees": employees.deleteById(Integer.parseInt(id));
+                break;
+            case "users": users.deleteById(id);
+                break;
+            case "projects": projects.deleteById(Integer.parseInt(id));
+                break;
+            case "roles": roles.deleteById(Integer.parseInt(id));
+                break;
+            default:
+        }
+        return goBackToAdminPage(model);
+    }
+
 }

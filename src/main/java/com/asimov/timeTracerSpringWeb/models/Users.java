@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,10 +49,19 @@ public class Users {
     }
 
     public boolean insert(User user){
-        String sql = "INSERT INTO Users (UserName, ResetTime, RoleID, EmployeeID) " +
-                "VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Users (UserName, ResetTime, RoleID, EmployeeID) VALUES (?, ?, ?, ?)";
         Object[] params = new Object[]{user.UserName(), user.ResetTime(), user.RoleID(), user.EmployeeID()};
         return jdbcTemplate.update(sql, params) > 0;
     }
 
+    public boolean deleteById(String userName) {
+        String sql = "DELETE FROM Users WHERE UPPER(UserName) = UPPER(?)";
+        return jdbcTemplate.update(sql, userName) > 0;
+    }
+
+    public boolean resetPwd(String userName) {
+        String sql = "UPDATE Users SET ResetTime = ?, Password = null WHERE UPPER(UserName) = UPPER(?)";
+        Object[] params = new Object[]{new Timestamp(System.currentTimeMillis()), userName};
+        return jdbcTemplate.update(sql, params) > 0;
+    }
 }
