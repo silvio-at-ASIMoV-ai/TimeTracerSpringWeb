@@ -192,4 +192,10 @@ public class AdminController {
         return goBackToAdminPage(model);
     }
 
+    @PostMapping("/resetPwd")
+    public String resetPwd(String userName, Model model) {
+        users.resetPwd(userName);
+        return goBackToAdminPage(model);
+    }
+
 }
