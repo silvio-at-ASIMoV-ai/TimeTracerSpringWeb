@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/root.css}">
+    <title>Title</title>
+</head>
+<body>
+<!-- times table-->
+<div th:style="${table} == 'times' ? 'display:block' : 'display:none'">
+    <div>Employee Id <span th:text="${table} == 'times' ? ${time.EmployeeID} : ''"></span></div>
+    <div>Project Id <span th:text="${table} == 'times' ? ${time.ProjectID} : ''"></span></div>
+    <div>Punched Time <span th:text="${table} == 'times' ? ${time.PunchedTime} : ''"></span></div>
+    <div>in <span th:text="${table} == 'times' ? ${time.in} : ''"></span></div>
+    <div>Insert User <span th:text="${table} == 'times' ? ${time.InsertUser} : ''"></span></div>
+    <div>Insert Timestamp <span th:text="${table} == 'times' ? ${time.InsertTimestamp} : ''"></span></div>
+    <div>Modify User <span th:text="${table} == 'times' ? ${time.ModifyUser} : ''"></span></div>
+    <div>Modify Timestamp <span th:text="${table} == 'times' ? ${time.ModifyTimestamp} : ''"></span></div>
+</div>
+
+<!-- employees table-->
+<div th:style="${table} == 'employees' ? 'display:block' : 'display:none'">
+    <div>Name <span th:text="${table} == 'employees' ? ${employee.Name} : ''"></span></div>
+    <div>Surname <span th:text="${table} == 'employees' ? ${employee.Surname} : ''"></span></div>
+    <div>Date of birth <span th:text="${table} == 'employees' ? ${employee.BirthDate} : ''"></span></div>
+    <div>Place of birth <span th:text="${table} == 'employees' ? ${employee.BirthPlace} : ''"></span></div>
+    <div>Social Security Number <span th:text="${table} == 'employees' ? ${employee.SocialSecurityNum} : ''"></span></div>
+    <div>Residence <span th:text="${table} == 'employees' ? ${employee.Residence} : ''"></span></div>
+</div>
+
+<!-- users table-->
+<div th:style="${table} == 'users' ? 'display:block' : 'display:none'">
+    <div>User Name <span th:text="${table} == 'users' ? ${user.UserName} : ''"></span></div>
+    <div>Role ID <span th:text="${table} == 'users' ? ${user.RoleID} : ''"></span></div>
+    <div>Employee ID <span th:text="${table} == 'users' ? ${user.EmployeeID} : ''"></span></div>
+</div>
+
+<!-- projects table-->
+<div th:style="${table} == 'projects' ? 'display:block' : 'display:none'">
+    <div>Project Name <span th:text="${table} == 'projects' ? ${project.ProjectName} : ''"></span></div>
+</div>
+
+<!-- roles table-->
+<div th:style="${table} == 'roles' ? 'display:block' : 'display:none'">
+    <div>Role <span th:text="${table} == 'roles' ? ${role.RoleDesc} : ''"></span></div>
+    <div>Is Admin <span th:text="${table} == 'roles' ? ${role.IsAdmin} : ''"></span></div>
+    <div>Project ID <span th:text="${table} == 'roles' ? ${role.ProjectId} : ''"></span></div>
+</div>
+
+<!-- logs table-->
+<div th:style="${table} == 'logs' ? 'display:block' : 'display:none'">
+    <div>Query <span th:text="${table} == 'logs' ? ${log.Query} : ''"></span></div>
+    <div>Previous State <span th:text="${table} == 'logs' ? ${log.PreviousState} : ''"></span></div>
+    <div>Timestamp <span th:text="${table} == 'logs' ? ${log.Timestamp} : ''"></span></div>
+</div>
+
+<div><input type="button" value="Back" onclick="history.back()"></div>
+
+</body>
+</html>

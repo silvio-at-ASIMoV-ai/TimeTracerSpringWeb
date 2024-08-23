@@ -1,0 +1,29 @@
+.container1 {
+    display: grid;
+    grid-auto-flow: row;
+    grid-row-gap: 10px;
+}
+
+.container2 {
+    display: grid;
+    grid-auto-flow: row;
+    grid-row-gap: 10px;
+  width: 200px;
+}
+
+.container3 {
+  display: flex;
+  justify-content: left;
+}
+
+.container4 {
+    display: grid;
+    grid-auto-flow: row;
+    grid-row-gap: 10px;
+    width: 100px;
+}
+
+.container5 {
+  display: flex;
+  justify-content: left;
+}

@@ -22,12 +22,17 @@ public class LoginController {
     private final Employees employees;
     private final Roles roles;
     private final Projects projects;
+    private final Times times;
+    private final Logs logs;
 
-    public LoginController(Users users, Employees employees, Roles roles, Projects projects) {
+    public LoginController(Users users, Employees employees, Roles roles,
+                           Projects projects, Times times, Logs logs) {
         this.users = users;
         this.employees = employees;
         this.roles = roles;
         this.projects = projects;
+        this.times = times;
+        this.logs = logs;
     }
 
     @GetMapping("/")
@@ -35,7 +40,7 @@ public class LoginController {
         return "login";
     }
 
-    @PostMapping("/checkLogin")
+    @PostMapping("/")
     public String loginFormSubmit(@Valid @ModelAttribute User user, Model model) {
         Optional<User> dbUser = users.findById(user.UserName());
         if(dbUser.isPresent()) {
@@ -58,12 +63,12 @@ public class LoginController {
                 }
             } else {
                 if(checkPassword(user.Password(), dbUser.get().Password())) {
-                    Role role = roles.findById(dbUser.get().RoleID()).get();
+                    Role role = roles.findById(dbUser.get().RoleID()).get(); //RoleID must exist per db constraint
                     if(!role.IsAdmin()) {
                         // Role != Admin
                         if(dbUser.get().EmployeeID() != null) {
                             //Access granted to Employee role
-                            Employee emp = employees.findById(dbUser.get().EmployeeID()).get();
+                            Employee emp = employees.findById(dbUser.get().EmployeeID()).get(); //EmployeeID must exist per db constraint
                             model.addAttribute("userId", dbUser.get().UserName());
                             model.addAttribute("employeeId", String.format("%d", dbUser.get().EmployeeID()));
                             model.addAttribute("employeeName", emp.Name());
@@ -77,6 +82,12 @@ public class LoginController {
                         }
                     } else {
                         //Access granted to Admin role
+                        model.addAttribute("projects", projects.findAll());
+                        model.addAttribute("users", users.findAll());
+                        model.addAttribute("employees", employees.findAll());
+                        model.addAttribute("roles", roles.findAll());
+                        model.addAttribute("times", times.findAll());
+                        model.addAttribute("logs", logs.findAll());
                         return "admin";
                     }
                 } else {

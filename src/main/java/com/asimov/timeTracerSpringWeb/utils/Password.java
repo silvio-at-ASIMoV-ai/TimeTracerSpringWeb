@@ -14,8 +14,8 @@ public class Password {
 
     private static String toHexEncodedString(byte[] bArr) {
         StringBuilder sb = new StringBuilder();
-        for(int i=0; i < bArr.length; i++) {
-            String c = String.format("%02X", bArr[i]);
+        for (byte b : bArr) {
+            String c = String.format("%02X", b);
             sb.append(c);
         }
         return sb.toString();
@@ -27,11 +27,7 @@ public class Password {
         random.nextBytes(saltArr);
         String salt = toHexEncodedString(saltArr);
         Optional<String> hashedPwd = hashPassword(clear, salt);
-        if(hashedPwd.isPresent()) {
-            return Optional.of(hashedPwd.get() + salt);
-        } else {
-            return Optional.empty();
-        }
+        return hashedPwd.map(s -> s + salt);
     }
 
     private static Optional<String> hashPassword(String password, String salt) {
@@ -51,11 +47,7 @@ public class Password {
         String salt = encrypted.substring(keyLength, keyLength * 2);
         String pwd = encrypted.substring(0, keyLength);
         Optional<String> optHashedPwd = hashPassword(clear, salt);
-        if(optHashedPwd.isPresent()) {
-            return optHashedPwd.get().equals(pwd);
-        } else {
-            return false;
-        }
+        return optHashedPwd.map(s -> s.equals(pwd)).orElse(false);
     }
 
 }

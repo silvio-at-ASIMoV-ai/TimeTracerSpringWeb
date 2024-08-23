@@ -1,0 +1,36 @@
+body {
+    background-color: powderblue;
+}
+
+div, table, p, h1, h2 {
+    margin: 1em 1em 1em 1em;
+}
+
+table, th, td  {
+  border: 2px solid;
+  border-collapse: collapse;
+  border-color: black;
+}
+
+th, td {
+  padding: 3px;
+}
+
+tbody tr:hover {
+  background-color: teal;
+  color: white;
+  border-color: black;
+}
+
+span {
+    left-margin: 0;
+    right-margin: 0;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.inline {
+ display:inline;
+}

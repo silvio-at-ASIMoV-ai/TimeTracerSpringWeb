@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/root.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/admin.css}">
+    <title>Admin Console</title>
+  </head>
+  <body onload="chooseTable()">
+    <h1>Admin Console</h1>
+
+    <div class="buttons">
+      <p>
+        <input type="button" value="Ch. Pwd">
+        <input type="button" value="Reports">
+        <input type="button" value="Close">
+      </p>
+    </div>
+
+    <div class="adminTableChoice">
+      <p>
+        <input id="timesRadio" name="tableChoice" type="radio" onclick="chooseTable()" checked>Times
+        <input id="employeesRadio" name="tableChoice" type="radio" onclick="chooseTable()">Employees
+        <input id="usersRadio" name="tableChoice" type="radio" onclick="chooseTable()">Users
+        <input id="projectsRadio" name="tableChoice" type="radio" onclick="chooseTable()">Projects
+        <input id="rolesRadio" name="tableChoice" type="radio" onclick="chooseTable()">Roles
+        <input id="logsRadio" name="tableChoice" type="radio" onclick="chooseTable()">Logs
+      </p>
+    </div>
+
+    <div class="AdminTable" id="projectsTable" style="display:none;">
+      <div>Projects</div>
+      <table>
+        <thead>
+        <tr>
+          <th>id</th>
+          <th>Project Name</th>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="project : ${projects}">
+          <td th:text="${project.id}" ></td>
+          <td th:text="${project.ProjectName}" ></td>
+          <td>
+            <form action="/admin/view/projects" method="get">
+              <input name="id" type="hidden" th:value="${project.id}">
+              <input type="submit" value="view">
+            </form>
+          </td>
+          <td>
+            <form action="/admin/edit/projects" method="get">
+              <input name="id" type="hidden" th:value="${project.id}">
+              <input type="submit" value="edit">
+            </form>
+          </td>
+          <td>
+            <form action="/admin/delete/projects" method="get">
+              <input name="id" type="hidden" th:value="${project.id}">
+              <input type="submit" value="delete">
+            </form>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <div>
+        <form action="/admin/insert/projects" method="get">
+          <input type="submit" value="Insert into Projects table">
+        </form>
+      </div>
+    </div>
+
+    <div class="AdminTable" id="usersTable" style="display:none;">
+      <div>Users</div>
+      <table>
+        <thead>
+        <tr>
+          <th>User Name</th>
+          <th>Role Id</th>
+          <th>Employee Id</th>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+          <td th:text="${user.UserName}" ></td>
+          <td th:text="${user.RoleID}" ></td>
+          <td th:text="${user.EmployeeID}" ></td>
+          <td>
+            <form action="/admin/view/users" method="get">
+              <input name="id" type="hidden" th:value="${user.UserName}">
+              <input type="submit" value="view">
+            </form>
+          </td>
+          <td>
+            <form action="/admin/edit/users" method="get">
+              <input name="id" type="hidden" th:value="${user.UserName}">
+              <input type="submit" value="edit" th:style="${user.UserName} == 'Admin' ? 'visibility:hidden' : 'visibility:visible'">
+            </form>
+          </td>
+          <td>
+            <form action="/admin/delete/users" method="get">
+              <input name="id" type="hidden" th:value="${user.UserName}">
+              <input type="submit" value="delete" th:style="${user.UserName} == 'Admin' ? 'visibility:hidden' : 'visibility:visible'">
+            </form>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <div>
+        <form action="/admin/insert/users" method="get">
+          <input type="submit" value="Insert into Users table">
+        </form>
+      </div>
+    </div>
+
+    <div class="AdminTable" id="employeesTable" style="display:none;">
+      <div>Employees</div>
+      <table>
+        <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Surname</th>
+          <th>Birth Date</th>
+          <th>Birth Place</th>
+          <th>Social Security Num</th>
+          <th>Residence</th>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="employee : ${employees}">
+          <td th:text="${employee.ID}" ></td>
+          <td th:text="${employee.Name}" ></td>
+          <td th:text="${employee.Surname}" ></td>
+          <td th:text="${employee.BirthDate}" ></td>
+          <td th:text="${employee.BirthPlace}" ></td>
+          <td th:text="${employee.SocialSecurityNum}" ></td>
+          <td th:text="${employee.Residence}" ></td>
+          <td>
+            <form action="/admin/view/employees" method="get">
+              <input name="id" type="hidden" th:value="${employee.ID}">
+              <input type="submit" value="view">
+            </form>
+          </td>
+          <td>
+            <form action="/admin/edit/employees" method="get">
+              <input name="id" type="hidden" th:value="${employee.ID}">
+              <input type="submit" value="edit">
+            </form>
+          </td>
+          <td>
+            <form action="/admin/delete/employees" method="get">
+              <input name="id" type="hidden" th:value="${employee.ID}">
+              <input type="submit" value="delete">
+            </form>
+          </td>
+          <td><input type="button" value="Reset Pwd"></td>
+        </tr>
+        </tbody>
+      </table>
+      <div>
+        <form action="/admin/insert/employees" method="get">
+          <input type="submit" value="Insert into Employees table">
+        </form>
+      </div>
+    </div>
+
+    <div class="AdminTable" id="rolesTable" style="display:none;">
+      <div>Roles</div>
+      <table>
+        <thead>
+        <tr>
+          <th>id</th>
+          <th>Role</th>
+          <th>Is Admin</th>
+          <th>Project Id</th>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="role : ${roles}">
+          <td th:text="${role.ID}" ></td>
+          <td th:text="${role.RoleDesc}" ></td>
+          <td th:text="${role.IsAdmin}" ></td>
+          <td th:text="${role.ProjectId}" ></td>
+          <td>
+            <form action="/admin/view/roles" method="get">
+              <input name="id" type="hidden" th:value="${role.ID}">
+              <input type="submit" value="view">
+            </form>
+          </td>
+          <td>
+            <form action="/admin/edit/roles" method="get">
+              <input name="id" type="hidden" th:value="${role.ID}">
+              <input type='submit' value='edit' th:style="(${role.RoleDesc} == 'Admin') or (${role.RoleDesc} == 'Employee') ? 'visibility:hidden' : 'visibility:visible'">
+            </form>
+          </td>
+          <td>
+            <form action="/admin/delete/roles" method="get">
+              <input name="id" type="hidden" th:value="${role.ID}">
+              <input type='submit' value='delete' th:style="(${role.RoleDesc} == 'Admin') or (${role.RoleDesc} == 'Employee') ? 'visibility:hidden' : 'visibility:visible'">
+            </form>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <div>
+        <form action="/admin/insert/roles" method="get">
+          <input type="submit" value="Insert into Roles table">
+        </form>
+      </div>
+    </div>
+
+    <div class="AdminTable" id="timesTable" style="display:block;">
+      <div>Times</div>
+      <table>
+        <thead>
+        <tr>
+          <th>id</th>
+          <th>Employee Id</th>
+          <th>Project Id</th>
+          <th>Punched Time</th>
+          <th>in</th>
+          <th>Insert User</th>
+          <th>Insert Timestamp</th>
+          <th>Modify User</th>
+          <th>Modify Timestamp</th>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="time : ${times}">
+          <td th:text="${time.ID}" ></td>
+          <td th:text="${time.EmployeeID}" ></td>
+          <td th:text="${time.ProjectID}" ></td>
+          <td th:text="${time.PunchedTime}" ></td>
+          <td th:text="${time.in}" ></td>
+          <td th:text="${time.InsertUser}" ></td>
+          <td th:text="${time.InsertTimestamp}" ></td>
+          <td th:text="${time.ModifyUser}" ></td>
+          <td th:text="${time.ModifyTimestamp}" ></td>
+          <td>
+            <form action="/admin/view/times" method="get">
+              <input name="id" type="hidden" th:value="${time.ID}">
+              <input type="submit" value="view">
+            </form>
+          </td>
+          <td>
+            <form action="/admin/edit/times" method="get">
+              <input name="id" type="hidden" th:value="${time.ID}">
+              <input type="submit" value="edit">
+            </form>
+          </td>
+          <td>
+            <form action="/admin/delete/times" method="get">
+              <input name="id" type="hidden" th:value="${time.ID}">
+              <input type="submit" value="delete">
+            </form>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <div>
+        <form action="/admin/insert/times" method="get">
+          <input type="submit" value="Insert into Times table">
+        </form>
+      </div>
+    </div>
+
+    <div class="AdminTable" id="logsTable" style="display:none;">
+      <div>Logs (Read Only)</div>
+      <table>
+        <thead>
+        <tr>
+          <th>id</th>
+          <th>Query</th>
+          <th>Previous State</th>
+          <th>Timestamp</th>
+          <th>&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="log : ${logs}">
+          <td th:text="${log.ID}" ></td>
+          <td th:text="${log.Query}" ></td>
+          <td th:text="${log.PreviousState}" ></td>
+          <td th:text="${log.timestamp}" ></td>
+          <td>
+            <form action="/admin/view/logs" method="get">
+              <input name="id" type="hidden" th:value="${log.ID}">
+              <input type="submit" value="view">
+            </form>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <script th:src="@{/scripts/admin.js}" type="text/javascript"></script>
+  </body>
+</html>
