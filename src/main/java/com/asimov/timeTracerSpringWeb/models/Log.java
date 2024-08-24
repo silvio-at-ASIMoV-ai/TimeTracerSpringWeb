@@ -15,6 +15,8 @@ public record Log(
         String NewValues,
         @Column("OLDVALUES")
         String OldValues,
-        Timestamp timestamp
+        Timestamp timestamp,
+        @Column("UNDOID")
+        Integer undoId
 ) {
 }

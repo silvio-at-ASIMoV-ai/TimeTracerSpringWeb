@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/root.css}" />
+    <title>Title</title>
+</head>
+<body>
+<h1>Delete</h1>
+<form action="/admin/undo" method="post">
+    <div>
+        Do you really want to Undo operation with id
+        <span class="bold" th:text="'&quot' + ${id} + '&quot'"></span>?
+    </div>
+    <input type="hidden" name="id" th:value="${id}">
+    <div>
+        <div class="inline">
+            <input type="submit" value="Yes">
+        </div>
+        <div class="inline">
+            <input type="button" value="No" onclick="history.back()">
+        </div>
+    </div>
+</form>
+</body>
+</html>

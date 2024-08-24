@@ -1,6 +1,7 @@
 package com.asimov.timeTracerSpringWeb.controllers;
 
 import com.asimov.timeTracerSpringWeb.models.*;
+import com.mysql.cj.util.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -102,7 +103,7 @@ public class AdminController {
                 time.PunchedTime(), time.in(), time.InsertUser(), time.InsertTimestamp(),
                 "Admin", new Timestamp(System.currentTimeMillis()));
         Log log = new Log(null,"Edit", newTime.toString(), oldTime.get().toString(),
-                new Timestamp(System.currentTimeMillis()));
+                new Timestamp(System.currentTimeMillis()), null);
         times.save(newTime);
         logs.save(log);
         return goBackToAdminPage(model);
@@ -115,7 +116,7 @@ public class AdminController {
                 employee.BirthDate(), employee.BirthPlace(), employee.SocialSecurityNum(),
                 employee.Residence());
         Log log = new Log(null,"Edit", newEmployee.toString(), oldEmployee.get().toString(),
-                new Timestamp(System.currentTimeMillis()));
+                new Timestamp(System.currentTimeMillis()), null);
         employees.save(newEmployee);
         logs.save(log);
         return goBackToAdminPage(model);
@@ -127,7 +128,7 @@ public class AdminController {
         User newUser = new User(user.UserName(), null, null,
                 user.RoleID(), user.EmployeeID());
         Log log = new Log(null,"Edit", newUser.toString(), oldUser.get().toString(),
-                new Timestamp(System.currentTimeMillis()));
+                new Timestamp(System.currentTimeMillis()), null);
         users.update(newUser);
         logs.save(log);
         return goBackToAdminPage(model);
@@ -138,7 +139,7 @@ public class AdminController {
         Optional<Project> oldProject = projects.findById(project.id());
         Project newProject = new Project(project.id(), project.ProjectName());
         Log log = new Log(null,"Edit", newProject.toString(), oldProject.get().toString(),
-                new Timestamp(System.currentTimeMillis()));
+                new Timestamp(System.currentTimeMillis()), null);
         projects.save(newProject);
         logs.save(log);
         return goBackToAdminPage(model);
@@ -149,7 +150,7 @@ public class AdminController {
         Optional<Role> oldRole = roles.findById(role.ID());
         Role newRole = new Role(role.ID(), role.RoleDesc(), role.IsAdmin(), role.ProjectId());
         Log log = new Log(null,"Edit", newRole.toString(), oldRole.get().toString(),
-                new Timestamp(System.currentTimeMillis()));
+                new Timestamp(System.currentTimeMillis()), null);
         roles.save(newRole);
         logs.save(log);
         return goBackToAdminPage(model);
@@ -162,7 +163,7 @@ public class AdminController {
                 new Timestamp(System.currentTimeMillis()),null, null);
         Time insertedTime = times.save(newTime);
         Log log = new Log(null,"Insert", insertedTime.toString(), "",
-                new Timestamp(System.currentTimeMillis()));
+                new Timestamp(System.currentTimeMillis()), null);
         logs.save(log);
         return goBackToAdminPage(model);
     }
@@ -174,7 +175,7 @@ public class AdminController {
                 employee.Residence());
         Employee insertedEmployee = employees.save(newEmployee);
         Log log = new Log(null,"Insert", insertedEmployee.toString(), "",
-                new Timestamp(System.currentTimeMillis()));
+                new Timestamp(System.currentTimeMillis()), null);
         logs.save(log);
         return goBackToAdminPage(model);
     }
@@ -187,11 +188,11 @@ public class AdminController {
                 user.RoleID(), user.EmployeeID());
         if(users.insert(newUser)){
             Log log = new Log(null,"Insert", insertedUser.toString(), "",
-                    new Timestamp(System.currentTimeMillis()));
+                    new Timestamp(System.currentTimeMillis()), null);
             logs.save(log);
         } else {
             Log log = new Log(null,"Insert", "Error Inserting User", "",
-                    new Timestamp(System.currentTimeMillis()));
+                    new Timestamp(System.currentTimeMillis()), null);
             logs.save(log);
         }
         return goBackToAdminPage(model);
@@ -202,7 +203,7 @@ public class AdminController {
         Project newProject = new Project(project.id(), project.ProjectName());
         Project insertedProject = projects.save(newProject);
         Log log = new Log(null,"Insert", insertedProject.toString(), "",
-                new Timestamp(System.currentTimeMillis()));
+                new Timestamp(System.currentTimeMillis()), null);
         logs.save(log);
         return goBackToAdminPage(model);
     }
@@ -212,7 +213,7 @@ public class AdminController {
         Role newRole = new Role(role.ID(), role.RoleDesc(), role.IsAdmin(), role.ProjectId());
         Role insertedRole = roles.save(newRole);
         Log log = new Log(null,"Insert", insertedRole.toString(), "",
-                new Timestamp(System.currentTimeMillis()));
+                new Timestamp(System.currentTimeMillis()), null);
         logs.save(log);
         return goBackToAdminPage(model);
     }
@@ -224,35 +225,35 @@ public class AdminController {
             case "times":
                 Optional<Time> oldTime = times.findById(Integer.parseInt(id));
                 log = new Log(null,"Delete", "", oldTime.get().toString(),
-                        new Timestamp(System.currentTimeMillis()));
+                        new Timestamp(System.currentTimeMillis()), null);
                 times.deleteById(Integer.parseInt(id));
                 logs.save(log);
                 break;
             case "employees":
                 Optional<Employee> oldEmployee = employees.findById(Integer.parseInt(id));
                 log = new Log(null,"Delete", "", oldEmployee.get().toString(),
-                        new Timestamp(System.currentTimeMillis()));
+                        new Timestamp(System.currentTimeMillis()), null);
                 employees.deleteById(Integer.parseInt(id));
                 logs.save(log);
                 break;
             case "users":
                 Optional<User> oldUser = users.findByIdWithoutPassword(id);
                 log = new Log(null,"Delete", "", oldUser.get().toString(),
-                        new Timestamp(System.currentTimeMillis()));
+                        new Timestamp(System.currentTimeMillis()), null);
                 users.deleteById(id);
                 logs.save(log);
                 break;
             case "projects":
                 Optional<Project> oldProject = projects.findById(Integer.parseInt(id));
                 log = new Log(null,"Delete", "", oldProject.get().toString(),
-                        new Timestamp(System.currentTimeMillis()));
+                        new Timestamp(System.currentTimeMillis()), null);
                 projects.deleteById(Integer.parseInt(id));
                 logs.save(log);
                 break;
             case "roles":
                 Optional<Role> oldRole = roles.findById(Integer.parseInt(id));
                 log = new Log(null,"Delete", "", oldRole.get().toString(),
-                        new Timestamp(System.currentTimeMillis()));
+                        new Timestamp(System.currentTimeMillis()), null);
                 roles.deleteById(Integer.parseInt(id));
                 logs.save(log);
                 break;
@@ -265,9 +266,112 @@ public class AdminController {
     public String resetPwd(String userName, Model model) {
         users.resetPwd(userName);
         Log log = new Log(null,"Reset Pwd", "", userName,
-                new Timestamp(System.currentTimeMillis()));
+                new Timestamp(System.currentTimeMillis()), null);
         logs.save(log);
         return goBackToAdminPage(model);
     }
 
+    private void undoInsert(Log log) {
+        String str = log.NewValues();
+        String[] pieces = str.substring(0, str.length()-1).split("\\[");
+        String table = pieces[0];
+        String[] fields = pieces[1].split(",");
+        String id = fields[0].split("=")[1];
+        Log newLog;
+        switch (table) {
+            case "Time":
+                Optional<Time> oldTime = times.findById(Integer.parseInt(id));
+                newLog = new Log(null,"Delete", "", oldTime.get().toString(),
+                        new Timestamp(System.currentTimeMillis()), log.ID());
+                times.deleteById(Integer.parseInt(id));
+                logs.save(newLog);
+                break;
+            case "Employee":
+                Optional<Employee> oldEmployee = employees.findById(Integer.parseInt(id));
+                newLog = new Log(null,"Delete", "", oldEmployee.get().toString(),
+                        new Timestamp(System.currentTimeMillis()), log.ID());
+                employees.deleteById(Integer.parseInt(id));
+                logs.save(newLog);
+                break;
+            case "Project":
+                Optional<Project> oldProject = projects.findById(Integer.parseInt(id));
+                newLog = new Log(null,"Delete", "", oldProject.get().toString(),
+                        new Timestamp(System.currentTimeMillis()), log.ID());
+                projects.deleteById(Integer.parseInt(id));
+                logs.save(newLog);
+                break;
+            case "User":
+                Optional<User> oldUser = users.findByIdWithoutPassword(id);
+                newLog = new Log(null,"Delete", "", oldUser.get().toString(),
+                        new Timestamp(System.currentTimeMillis()), log.ID());
+                users.deleteById(id);
+                logs.save(newLog);
+                break;
+            case "Role":
+                Optional<Role> oldRole = roles.findById(Integer.parseInt(id));
+                newLog = new Log(null,"Delete", "", oldRole.get().toString(),
+                        new Timestamp(System.currentTimeMillis()), log.ID());
+                roles.deleteById(Integer.parseInt(id));
+                logs.save(newLog);
+                break;
+            default:
+        }
+    }
+
+    private void undoEdit(Log log) {
+        String table = log.NewValues().split("\\[")[0];
+        switch (table) {
+            case "Time":
+                break;
+            case "Employee":
+                break;
+            case "Project":
+                break;
+            case "User":
+                break;
+            case "Role":
+                break;
+            default:
+        }
+    }
+
+    private void undoDelete(Log log) {
+        String table = log.OldValues().split("\\[")[0];
+        switch (table) {
+            case "Time":
+                break;
+            case "Employee":
+                break;
+            case "Project":
+                break;
+            case "User":
+                break;
+            case "Role":
+                break;
+            default:
+        }
+    }
+
+    @GetMapping("/undo/logs")
+    public String undoConfirm(int id, Model model) {
+        model.addAttribute("id", id);
+        return "undo";
+    }
+
+    @PostMapping("/undo")
+    public String undo(int id, Model model) {
+        Optional<Log> log = logs.findById(id);
+        if(log.isPresent()) {
+            switch (log.get().Operation()) {
+                case "Edit": undoEdit(log.get());
+                    break;
+                case "Insert": undoInsert(log.get());
+                    break;
+                case "Delete": undoDelete(log.get());
+                    break;
+                default:
+            }
+        }
+        return goBackToAdminPage(model);
+    }
 }
