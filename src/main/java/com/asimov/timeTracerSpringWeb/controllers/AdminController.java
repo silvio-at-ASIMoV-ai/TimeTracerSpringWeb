@@ -101,7 +101,7 @@ public class AdminController {
         Time newTime = new Time(time.ID(), time.EmployeeID(), time.ProjectID(),
                 time.PunchedTime(), time.in(), time.InsertUser(), time.InsertTimestamp(),
                 "Admin", new Timestamp(System.currentTimeMillis()));
-        Log log = new Log(null,"Edit Times", newTime.toString(), oldTime.get().toString(),
+        Log log = new Log(null,"Edit", newTime.toString(), oldTime.get().toString(),
                 new Timestamp(System.currentTimeMillis()));
         times.save(newTime);
         logs.save(log);
@@ -110,87 +110,151 @@ public class AdminController {
 
     @PostMapping("/edit/employees")
     public String saveEmployee(@ModelAttribute Employee employee, Model model){
-        Employee employeeToSave = new Employee(employee.ID(), employee.Name(), employee.Surname(),
+        Optional<Employee> oldEmployee = employees.findById(employee.ID());
+        Employee newEmployee = new Employee(employee.ID(), employee.Name(), employee.Surname(),
                 employee.BirthDate(), employee.BirthPlace(), employee.SocialSecurityNum(),
                 employee.Residence());
-        employees.save(employeeToSave);
+        Log log = new Log(null,"Edit", newEmployee.toString(), oldEmployee.get().toString(),
+                new Timestamp(System.currentTimeMillis()));
+        employees.save(newEmployee);
+        logs.save(log);
         return goBackToAdminPage(model);
     }
 
     @PostMapping("/edit/users")
     public String saveUser(@ModelAttribute User user, Model model){
-        User userToSave = new User(user.UserName(), null, null,
+        Optional<User> oldUser = users.findByIdWithoutPassword(user.UserName());
+        User newUser = new User(user.UserName(), null, null,
                 user.RoleID(), user.EmployeeID());
-        users.update(userToSave);
+        Log log = new Log(null,"Edit", newUser.toString(), oldUser.get().toString(),
+                new Timestamp(System.currentTimeMillis()));
+        users.update(newUser);
+        logs.save(log);
         return goBackToAdminPage(model);
     }
 
     @PostMapping("/edit/projects")
     public String saveProject(@ModelAttribute Project project, Model model){
-        Project projectToSave = new Project(project.id(), project.ProjectName());
-        projects.save(projectToSave);
+        Optional<Project> oldProject = projects.findById(project.id());
+        Project newProject = new Project(project.id(), project.ProjectName());
+        Log log = new Log(null,"Edit", newProject.toString(), oldProject.get().toString(),
+                new Timestamp(System.currentTimeMillis()));
+        projects.save(newProject);
+        logs.save(log);
         return goBackToAdminPage(model);
     }
 
     @PostMapping("/edit/roles")
     public String saveRole(@ModelAttribute Role role, Model model){
-        Role roleToSave = new Role(role.ID(), role.RoleDesc(), role.IsAdmin(), role.ProjectId());
-        roles.save(roleToSave);
+        Optional<Role> oldRole = roles.findById(role.ID());
+        Role newRole = new Role(role.ID(), role.RoleDesc(), role.IsAdmin(), role.ProjectId());
+        Log log = new Log(null,"Edit", newRole.toString(), oldRole.get().toString(),
+                new Timestamp(System.currentTimeMillis()));
+        roles.save(newRole);
+        logs.save(log);
         return goBackToAdminPage(model);
     }
 
     @PostMapping("/insert/times")
     public String insertTime(@ModelAttribute Time time, Model model){
-        Time timeToSave = new Time(null, time.EmployeeID(), time.ProjectID(),
+        Time newTime = new Time(null, time.EmployeeID(), time.ProjectID(),
                 time.PunchedTime(), time.in(), "Admin",
                 new Timestamp(System.currentTimeMillis()),null, null);
-        times.save(timeToSave);
+        Time insertedTime = times.save(newTime);
+        Log log = new Log(null,"Insert", insertedTime.toString(), "",
+                new Timestamp(System.currentTimeMillis()));
+        logs.save(log);
         return goBackToAdminPage(model);
     }
 
     @PostMapping("/insert/employees")
     public String insertEmployee(@ModelAttribute Employee employee, Model model){
-        Employee employeeToSave = new Employee(null, employee.Name(), employee.Surname(),
+        Employee newEmployee = new Employee(null, employee.Name(), employee.Surname(),
                 employee.BirthDate(), employee.BirthPlace(), employee.SocialSecurityNum(),
                 employee.Residence());
-        employees.save(employeeToSave);
+        Employee insertedEmployee = employees.save(newEmployee);
+        Log log = new Log(null,"Insert", insertedEmployee.toString(), "",
+                new Timestamp(System.currentTimeMillis()));
+        logs.save(log);
         return goBackToAdminPage(model);
     }
 
     @PostMapping("/insert/users")
     public String insertUser(@ModelAttribute User user, Model model){
-        User userToSave = new User(user.UserName(), null, new Timestamp(System.currentTimeMillis()),
+        User newUser = new User(user.UserName(), null, new Timestamp(System.currentTimeMillis()),
                 user.RoleID(), user.EmployeeID());
-        users.insert(userToSave);
+        User insertedUser = new User(user.UserName(), null, null,
+                user.RoleID(), user.EmployeeID());
+        if(users.insert(newUser)){
+            Log log = new Log(null,"Insert", insertedUser.toString(), "",
+                    new Timestamp(System.currentTimeMillis()));
+            logs.save(log);
+        } else {
+            Log log = new Log(null,"Insert", "Error Inserting User", "",
+                    new Timestamp(System.currentTimeMillis()));
+            logs.save(log);
+        }
         return goBackToAdminPage(model);
     }
 
     @PostMapping("/insert/projects")
     public String insertProject(@ModelAttribute Project project, Model model){
-        Project projectToSave = new Project(project.id(), project.ProjectName());
-        projects.save(projectToSave);
+        Project newProject = new Project(project.id(), project.ProjectName());
+        Project insertedProject = projects.save(newProject);
+        Log log = new Log(null,"Insert", insertedProject.toString(), "",
+                new Timestamp(System.currentTimeMillis()));
+        logs.save(log);
         return goBackToAdminPage(model);
     }
 
     @PostMapping("/insert/roles")
     public String insertRole(@ModelAttribute Role role, Model model){
-        Role roleToSave = new Role(role.ID(), role.RoleDesc(), role.IsAdmin(), role.ProjectId());
-        roles.save(roleToSave);
+        Role newRole = new Role(role.ID(), role.RoleDesc(), role.IsAdmin(), role.ProjectId());
+        Role insertedRole = roles.save(newRole);
+        Log log = new Log(null,"Insert", insertedRole.toString(), "",
+                new Timestamp(System.currentTimeMillis()));
+        logs.save(log);
         return goBackToAdminPage(model);
     }
 
     @PostMapping("/delete/delete")
     public String delete(String id, String table, Model model){
+        Log log;
         switch (table) {
-            case "times": times.deleteById(Integer.parseInt(id));
+            case "times":
+                Optional<Time> oldTime = times.findById(Integer.parseInt(id));
+                log = new Log(null,"Delete", "", oldTime.get().toString(),
+                        new Timestamp(System.currentTimeMillis()));
+                times.deleteById(Integer.parseInt(id));
+                logs.save(log);
                 break;
-            case "employees": employees.deleteById(Integer.parseInt(id));
+            case "employees":
+                Optional<Employee> oldEmployee = employees.findById(Integer.parseInt(id));
+                log = new Log(null,"Delete", "", oldEmployee.get().toString(),
+                        new Timestamp(System.currentTimeMillis()));
+                employees.deleteById(Integer.parseInt(id));
+                logs.save(log);
                 break;
-            case "users": users.deleteById(id);
+            case "users":
+                Optional<User> oldUser = users.findByIdWithoutPassword(id);
+                log = new Log(null,"Delete", "", oldUser.get().toString(),
+                        new Timestamp(System.currentTimeMillis()));
+                users.deleteById(id);
+                logs.save(log);
                 break;
-            case "projects": projects.deleteById(Integer.parseInt(id));
+            case "projects":
+                Optional<Project> oldProject = projects.findById(Integer.parseInt(id));
+                log = new Log(null,"Delete", "", oldProject.get().toString(),
+                        new Timestamp(System.currentTimeMillis()));
+                projects.deleteById(Integer.parseInt(id));
+                logs.save(log);
                 break;
-            case "roles": roles.deleteById(Integer.parseInt(id));
+            case "roles":
+                Optional<Role> oldRole = roles.findById(Integer.parseInt(id));
+                log = new Log(null,"Delete", "", oldRole.get().toString(),
+                        new Timestamp(System.currentTimeMillis()));
+                roles.deleteById(Integer.parseInt(id));
+                logs.save(log);
                 break;
             default:
         }
@@ -200,6 +264,9 @@ public class AdminController {
     @PostMapping("/resetPwd")
     public String resetPwd(String userName, Model model) {
         users.resetPwd(userName);
+        Log log = new Log(null,"Reset Pwd", "", userName,
+                new Timestamp(System.currentTimeMillis()));
+        logs.save(log);
         return goBackToAdminPage(model);
     }
 

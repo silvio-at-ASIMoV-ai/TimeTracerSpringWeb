@@ -49,9 +49,10 @@
 
 <!-- logs table-->
 <div th:style="${table} == 'logs' ? 'display:block' : 'display:none'">
-    <div>Query <span th:text="${table} == 'logs' ? ${log.Query} : ''"></span></div>
-    <div>Previous State <span th:text="${table} == 'logs' ? ${log.PreviousState} : ''"></span></div>
-    <div>Timestamp <span th:text="${table} == 'logs' ? ${log.Timestamp} : ''"></span></div>
+    <div>Operation <span th:text="${table} == 'logs' ? ${log.Operation} : ''"></span></div>
+    <div>New Values <span th:text="${table} == 'logs' ? ${log.NewValues} : ''"></span></div>
+    <div>Old Values <span th:text="${table} == 'logs' ? ${log.OldValues} : ''"></span></div>
+    <div>Timestamp <span th:text="${table} == 'logs' ? ${log.timestamp} : ''"></span></div>
 </div>
 
 <div><input type="button" value="Back" onclick="history.back()"></div>

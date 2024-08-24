@@ -24,6 +24,15 @@ public class Users {
                          rs.getInt("RoleId"),
                          rs.getInt("EmployeeId"));
     }
+
+    private static User mapUserRowWithoutPassword(ResultSet rs, int rowNum) throws SQLException {
+        return new User(rs.getString("UserName"),
+                null,
+                null,
+                rs.getInt("RoleId"),
+                rs.getInt("EmployeeId"));
+    }
+
     public List<User> findAll() {
         String sql = "SELECT * FROM Users";
         return jdbcTemplate.query(sql, Users::mapUserRow).stream().toList();
@@ -32,6 +41,11 @@ public class Users {
     public Optional<User> findById(String userName) {
         String sql = "SELECT * FROM Users WHERE UPPER(UserName) = UPPER(?)";
         return jdbcTemplate.query(sql, Users::mapUserRow, userName).stream().findFirst();
+    }
+
+    public Optional<User> findByIdWithoutPassword(String userName) {
+        String sql = "SELECT UserName, RoleID, EmployeeID FROM Users WHERE UPPER(UserName) = UPPER(?)";
+        return jdbcTemplate.query(sql, Users::mapUserRowWithoutPassword, userName).stream().findFirst();
     }
 
     public boolean updatePassword(String username, String pwd) {

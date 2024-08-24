@@ -297,6 +297,7 @@
           <th>Old Values</th>
           <th>Timestamp</th>
           <th>&nbsp;</th>
+          <th>&nbsp;</th>
         </tr>
         </thead>
         <tbody>
@@ -310,6 +311,16 @@
             <form action="/admin/view/logs" method="get">
               <input name="id" type="hidden" th:value="${log.ID}">
               <input type="submit" value="view">
+            </form>
+          </td>
+          <td>
+            <form action="/admin/undo/logs" method="get">
+              <input name="id" type="hidden" th:value="${log.ID}">
+              <input type="submit" value="Undo" th:style="${log.Operation} == 'Reset Pwd' ? 'visibility:hidden' : 'visibility:visible'">
+
+              <!--
+
+              -->
             </form>
           </td>
         </tr>
