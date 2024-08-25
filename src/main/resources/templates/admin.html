@@ -14,7 +14,7 @@
       <p>
         <input type="button" value="Ch. Pwd">
         <input type="button" value="Reports">
-        <input type="button" value="Close">
+        <a href="/"><input type="button" value="Close"></a>
       </p>
     </div>
 
@@ -148,7 +148,7 @@
           <td th:text="${employee.ID}" ></td>
           <td th:text="${employee.Name}" ></td>
           <td th:text="${employee.Surname}" ></td>
-          <td th:text="${employee.BirthDate}" ></td>
+          <td th:text="${#dates.format(employee.BirthDate, 'dd/MM/yyyy')}" ></td>
           <td th:text="${employee.BirthPlace}" ></td>
           <td th:text="${employee.SocialSecurityNum}" ></td>
           <td th:text="${employee.Residence}" ></td>
@@ -198,7 +198,7 @@
         <tr th:each="role : ${roles}">
           <td th:text="${role.ID}" ></td>
           <td th:text="${role.RoleDesc}" ></td>
-          <td th:text="${role.IsAdmin}" ></td>
+          <td><input type="checkbox" th:checked="${role.IsAdmin}" onclick="return false"></td>
           <td th:text="${role.ProjectId}" ></td>
           <td>
             <form action="/admin/view/roles" method="get">
@@ -240,8 +240,6 @@
           <th>in</th>
           <th>Insert User</th>
           <th>Insert Timestamp</th>
-          <th>Modify User</th>
-          <th>Modify Timestamp</th>
           <th>&nbsp;</th>
           <th>&nbsp;</th>
           <th>&nbsp;</th>
@@ -252,12 +250,10 @@
           <td th:text="${time.ID}" ></td>
           <td th:text="${time.EmployeeID}" ></td>
           <td th:text="${time.ProjectID}" ></td>
-          <td th:text="${time.PunchedTime}" ></td>
-          <td th:text="${time.in}" ></td>
+          <td th:text="${#dates.format(time.PunchedTime, 'dd/MM/yyyy HH:mm')}"></td>
+          <td><input type="checkbox" th:checked="${time.in}" onclick="return false"></td>
           <td th:text="${time.InsertUser}" ></td>
-          <td th:text="${time.InsertTimestamp}" ></td>
-          <td th:text="${time.ModifyUser}" ></td>
-          <td th:text="${time.ModifyTimestamp}" ></td>
+          <td th:text="${#dates.format(time.InsertTimestamp, 'dd/MM/yyyy HH:mm:ss')}"></td>
           <td>
             <form action="/admin/view/times" method="get">
               <input name="id" type="hidden" th:value="${time.ID}">
@@ -324,7 +320,7 @@
             </span>
           </td>
           <td th:text="${log.undoId}" ></td>
-          <td th:text="${log.timestamp}" ></td>
+          <td th:text="${#dates.format(log.timestamp, 'dd/MM/yyyy HH:mm:ss')}"></td>
           <td>
             <form action="/admin/view/logs" method="get">
               <input name="id" type="hidden" th:value="${log.ID}">
