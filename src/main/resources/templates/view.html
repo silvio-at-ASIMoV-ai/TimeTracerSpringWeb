@@ -50,8 +50,10 @@
 <!-- logs table-->
 <div th:style="${table} == 'logs' ? 'display:block' : 'display:none'">
     <div>Operation <span th:text="${table} == 'logs' ? ${log.Operation} : ''"></span></div>
+    <div>Table <span th:text="${table} == 'logs' ? ${log.Table} : ''"></span></div>
     <div>New Values <span th:text="${table} == 'logs' ? ${log.NewValues} : ''"></span></div>
     <div>Old Values <span th:text="${table} == 'logs' ? ${log.OldValues} : ''"></span></div>
+    <div>Undo Id <span th:text="${table} == 'logs' ? ${log.undoId} : ''"></span></div>
     <div>Timestamp <span th:text="${table} == 'logs' ? ${log.timestamp} : ''"></span></div>
 </div>
 

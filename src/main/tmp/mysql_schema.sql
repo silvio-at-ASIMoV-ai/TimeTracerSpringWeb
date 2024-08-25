@@ -38,11 +38,13 @@ CREATE TABLE IF NOT EXISTS Users (
 );
 CREATE TABLE IF NOT EXISTS Logs (
 	ID BIGINT auto_increment PRIMARY KEY,
-	Query text NOT NULL,
-	PreviousState text NOT NULL,
-	Timestamp TIMESTAMP NOT NULL
+    Operation varchar(100) NOT NULL,
+    `Table` varchar(100) NOT NULL,
+	NewValues text NOT NULL,
+	OldValues text NOT NULL,
+	undoId int DEFAULT NULL,
+	`Timestamp` TIMESTAMP NOT NULL
 );
-
 
 INSERT INTO Roles (RoleDesc, IsAdmin) VALUES ('Admin', true);
 INSERT INTO Roles (RoleDesc, IsAdmin) VALUES ('Employee', false);

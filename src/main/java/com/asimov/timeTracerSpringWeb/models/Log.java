@@ -11,12 +11,12 @@ public record Log(
         @Id
         Integer ID,
         String Operation,
+        String Table,
         @Column("NEWVALUES")
         String NewValues,
         @Column("OLDVALUES")
         String OldValues,
-        Timestamp timestamp,
         @Column("UNDOID")
-        Integer undoId
-) {
-}
+        Integer undoId,
+        Timestamp timestamp
+) { }

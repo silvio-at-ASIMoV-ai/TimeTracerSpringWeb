@@ -68,13 +68,26 @@ public class LoginController {
                         // Role != Admin
                         if(dbUser.get().EmployeeID() != null) {
                             //Access granted to Employee role
-                            Employee emp = employees.findById(dbUser.get().EmployeeID()).get(); //EmployeeID must exist per db constraint
-                            model.addAttribute("userId", dbUser.get().UserName());
-                            model.addAttribute("employeeId", String.format("%d", dbUser.get().EmployeeID()));
-                            model.addAttribute("employeeName", emp.Name());
-                            model.addAttribute("employeeSurname", emp.Surname());
-                            model.addAttribute("projects", projects.findAll());
-                            return "timePunch";
+                            Optional<Employee> optEmp = employees.findById(dbUser.get().EmployeeID());
+                            if(optEmp.isPresent()) {
+                                Employee emp = optEmp.get(); //EmployeeID must exist per db constraint??
+                                model.addAttribute("userId", dbUser.get().UserName());
+                                model.addAttribute("employeeId", String.format("%d", dbUser.get().EmployeeID()));
+                                model.addAttribute("employeeName", emp.Name());
+                                model.addAttribute("employeeSurname", emp.Surname());
+                                model.addAttribute("projects", projects.findAll());
+                                return "timePunch";
+                            } else {
+                                return "changePwdError";  //this error page is temporary, read the TODO
+                                //TODO This should never happen
+                                //TODO ---------------------------------------------------------------------
+                                //TODO It happens only when the admin doesn't insert the right EmployeeId
+                                //TODO or when undoing an employee delete, the undone deleted employee
+                                //TODO doesn't have the same id so the user points to the wrong employee
+                                //TODO ---------------------------------------------------------------------
+                                //TODO A user insert shoud always be accompanied by an employee insert
+                                //TODO and an employee delete should always be accompanied by a user delete
+                            }
                         } else {
                             //This should never happen
                             //Role != Admin and EmployeeId == null

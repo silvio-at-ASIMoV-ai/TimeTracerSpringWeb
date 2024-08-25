@@ -288,15 +288,16 @@
 
     <div class="AdminTable" id="logsTable" style="display:none;">
       <div>Logs (Read Only)</div>
-      <table>
+      <table id="logsTableTable">
         <thead>
         <tr>
           <th>id</th>
           <th>Operation</th>
+          <th>Table</th>
           <th>New Values</th>
           <th>Old Values</th>
-          <th>Timestamp</th>
           <th>Undo Id</th>
+          <th>Timestamp</th>
           <th>&nbsp;</th>
           <th>&nbsp;</th>
         </tr>
@@ -305,10 +306,25 @@
         <tr th:each="log : ${logs}">
           <td th:text="${log.ID}" ></td>
           <td th:text="${log.Operation}" ></td>
-          <td th:text="${log.NewValues}" ></td>
-          <td th:text="${log.OldValues}" ></td>
-          <td th:text="${log.timestamp}" ></td>
+          <td th:text="${log.Table}" ></td>
+          <td>
+            <span th:if="${log.NewValues.length()>55}">
+            <span th:utext="${#strings.substring(log.NewValues,0,52)} + '...'"></span>
+            </span>
+            <span th:if="${log.NewValues.length()<55}">
+            <span th:utext="${log.NewValues}"></span>
+            </span>
+          </td>
+          <td>
+            <span th:if="${log.OldValues.length()>55}">
+            <span th:utext="${#strings.substring(log.OldValues,0,52)} + '...'"></span>
+            </span>
+            <span th:if="${log.OldValues.length()<55}">
+            <span th:utext="${log.OldValues}"></span>
+            </span>
+          </td>
           <td th:text="${log.undoId}" ></td>
+          <td th:text="${log.timestamp}" ></td>
           <td>
             <form action="/admin/view/logs" method="get">
               <input name="id" type="hidden" th:value="${log.ID}">
