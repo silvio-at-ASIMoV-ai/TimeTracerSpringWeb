@@ -7,7 +7,8 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/admin.css}">
     <title>Admin Console</title>
   </head>
-  <body onload="chooseTable()">
+<!--  onload="chooseTable('${startTable}')"-->
+  <body th:onload="chooseTable([[${startTable}]])">
     <h1>Admin Console</h1>
 
     <div class="buttons">
@@ -21,11 +22,11 @@
     <div class="adminTableChoice">
       <p>
         <input id="timesRadio" name="tableChoice" type="radio" onclick="chooseTable()" checked>Times
-        <input id="employeesRadio" name="tableChoice" type="radio" onclick="chooseTable()">Employees
-        <input id="usersRadio" name="tableChoice" type="radio" onclick="chooseTable()">Users
-        <input id="projectsRadio" name="tableChoice" type="radio" onclick="chooseTable()">Projects
-        <input id="rolesRadio" name="tableChoice" type="radio" onclick="chooseTable()">Roles
-        <input id="logsRadio" name="tableChoice" type="radio" onclick="chooseTable()">Logs
+        <input id="employeesRadio" name="tableChoice" type="radio" onclick="chooseTable('Employee')">Employees
+        <input id="usersRadio" name="tableChoice" type="radio" onclick="chooseTable('User')">Users
+        <input id="projectsRadio" name="tableChoice" type="radio" onclick="chooseTable('Project')">Projects
+        <input id="rolesRadio" name="tableChoice" type="radio" onclick="chooseTable('Role')">Roles
+        <input id="logsRadio" name="tableChoice" type="radio" onclick="chooseTable('Log')">Logs
       </p>
     </div>
 
@@ -228,7 +229,7 @@
       </div>
     </div>
 
-    <div class="AdminTable" id="timesTable" style="display:block;">
+    <div class="AdminTable" id="timesTable" style="display:none;">
       <div>Times</div>
       <table>
         <thead>
@@ -283,6 +284,55 @@
     </div>
 
     <div class="AdminTable" id="logsTable" style="display:none;">
+      <div class="Search">
+        <div>
+          Search
+        </div>
+        <div>
+          <form action="/admin/search/logs" method="post">
+            <span>
+              <label for="operation">Operation: </label>
+              <select name="operation" id="operation">
+                <option value="All">All</option>
+                <option value="Insert">Insert</option>
+                <option value="Delete">Delete</option>
+                <option value="Edit">Edit</option>
+                <option value="Reset Pwd">Reset Pwd</option>
+              </select>
+            </span>
+            <span>
+              <label for="table">Table: </label>
+              <select name="table" id="table">
+                <option value="All">All</option>
+                <option value="Times">Times</option>
+                <option value="Employees">Employees</option>
+                <option value="Users">Users</option>
+                <option value="Projects">Projects</option>
+                <option value="Roles">Roles</option>
+              </select>
+            </span>
+            <span>
+              <label for="date_from">From: </label>
+              <input type="datetime-local" name="date_from" id="date_from">
+            </span>
+            <span>
+              <label for="date_to">To: </label>
+              <input type="datetime-local" name="date_to" id="date_to">
+            </span>
+            <span>
+              <label for="contains">Contains text: </label>
+              <input type="text" name="contains" id="contains">
+            </span>
+            <span>
+              <label for="limit">Limit: </label>
+              <input style="width: 35px;" type="number" name="limit" id="limit" th:value="${limit}">
+            </span>
+            <span>
+              <input type="submit" value="Search">
+            </span>
+          </form>
+        </div>
+      </div>
       <div>Logs (Read Only)</div>
       <table id="logsTableTable">
         <thead>

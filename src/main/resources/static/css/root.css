@@ -34,3 +34,7 @@ span {
 .inline {
  display:inline;
 }
+
+.Search {
+    border: 1px solid;
+}

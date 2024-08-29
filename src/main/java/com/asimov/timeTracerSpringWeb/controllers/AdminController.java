@@ -6,6 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -20,6 +22,7 @@ public class AdminController {
     private final Projects projects;
     private final Roles roles;
     private final Logs logs;
+    private final int limit = 15;
 
     public AdminController(Times times, Employees employees, Users users,
                            Projects projects, Roles roles, Logs logs) {
@@ -29,6 +32,11 @@ public class AdminController {
         this.projects = projects;
         this.roles = roles;
         this.logs = logs;
+    }
+
+    @PostMapping("")
+    public String adminPage(Model model) {
+        return goToAdminPage(model, "Time");
     }
 
     @GetMapping("/view/{table}")
@@ -86,13 +94,20 @@ public class AdminController {
         return "insertEdit";
     }
 
-    private String goBackToAdminPage(Model model) {
+    private String goToAdminPage(Model model, String startTable) {
+        return goToAdminPage(model, startTable, null);
+    }
+
+    private String goToAdminPage(Model model, String startTable, List<Log> logList) {
         model.addAttribute("projects", projects.findAll());
         model.addAttribute("users", users.findAll());
         model.addAttribute("employees", employees.findAll());
         model.addAttribute("roles", roles.findAll());
         model.addAttribute("times", times.findAll());
-        model.addAttribute("logs", logs.findAll());
+        if(logList == null) model.addAttribute("logs", logs.findAllLimited(limit));
+        else model.addAttribute("logs", logList);
+        model.addAttribute("startTable", startTable);
+        model.addAttribute("limit", limit);
         return "admin";
     }
 
@@ -106,7 +121,7 @@ public class AdminController {
                 oldTime.get().toString(),null, new Timestamp(System.currentTimeMillis()));
         times.save(newTime);
         logs.save(log);
-        return goBackToAdminPage(model);
+        return goToAdminPage(model, "Time");
     }
 
     @PostMapping("/edit/employees")
@@ -119,7 +134,7 @@ public class AdminController {
                 oldEmployee.get().toString(), null, new Timestamp(System.currentTimeMillis()));
         employees.save(newEmployee);
         logs.save(log);
-        return goBackToAdminPage(model);
+        return goToAdminPage(model, "Employee");
     }
 
     @PostMapping("/edit/users")
@@ -131,7 +146,7 @@ public class AdminController {
                 oldUser.get().toString(), null, new Timestamp(System.currentTimeMillis()));
         users.update(newUser);
         logs.save(log);
-        return goBackToAdminPage(model);
+        return goToAdminPage(model, "User");
     }
 
     @PostMapping("/edit/projects")
@@ -142,7 +157,7 @@ public class AdminController {
                 oldProject.get().toString(), null, new Timestamp(System.currentTimeMillis()));
         projects.save(newProject);
         logs.save(log);
-        return goBackToAdminPage(model);
+        return goToAdminPage(model, "Project");
     }
 
     @PostMapping("/edit/roles")
@@ -153,7 +168,7 @@ public class AdminController {
                 oldRole.get().toString(), null, new Timestamp(System.currentTimeMillis()));
         roles.save(newRole);
         logs.save(log);
-        return goBackToAdminPage(model);
+        return goToAdminPage(model, "Role");
     }
 
     @PostMapping("/insert/times")
@@ -165,7 +180,7 @@ public class AdminController {
         Log log = new Log(null,"Insert", "Time", insertedTime.toString(),
                 "", null, new Timestamp(System.currentTimeMillis()));
         logs.save(log);
-        return goBackToAdminPage(model);
+        return goToAdminPage(model, "Time");
     }
 
     @PostMapping("/insert/employees")
@@ -177,7 +192,7 @@ public class AdminController {
         Log log = new Log(null,"Insert", "Employee", insertedEmployee.toString(),
                 "", null, new Timestamp(System.currentTimeMillis()));
         logs.save(log);
-        return goBackToAdminPage(model);
+        return goToAdminPage(model, "Employee");
     }
 
     @PostMapping("/insert/users")
@@ -191,7 +206,7 @@ public class AdminController {
                     "", null, new Timestamp(System.currentTimeMillis()));
             logs.save(log);
         }
-        return goBackToAdminPage(model);
+        return goToAdminPage(model, "User");
     }
 
     @PostMapping("/insert/projects")
@@ -201,7 +216,7 @@ public class AdminController {
         Log log = new Log(null,"Insert", "Project", insertedProject.toString(),
                 "", null, new Timestamp(System.currentTimeMillis()));
         logs.save(log);
-        return goBackToAdminPage(model);
+        return goToAdminPage(model, "Project");
     }
 
     @PostMapping("/insert/roles")
@@ -211,7 +226,7 @@ public class AdminController {
         Log log = new Log(null,"Insert", "Role", insertedRole.toString(),
                 "", null, new Timestamp(System.currentTimeMillis()));
         logs.save(log);
-        return goBackToAdminPage(model);
+        return goToAdminPage(model, "Role");
     }
 
     @PostMapping("/delete/delete")
@@ -255,7 +270,8 @@ public class AdminController {
                 break;
             default:
         }
-        return goBackToAdminPage(model);
+        return goToAdminPage(model,
+                table.substring(0, 1).toUpperCase() + table.substring(1, table.length() - 1));
     }
 
     @PostMapping("/resetPwd")
@@ -264,7 +280,7 @@ public class AdminController {
         Log log = new Log(null,"Reset Pwd", "User", "",
                 userName, null, new Timestamp(System.currentTimeMillis()));
         logs.save(log);
-        return goBackToAdminPage(model);
+        return goToAdminPage(model, "User");
     }
 
     private void undoInsert(Log log) {
@@ -452,6 +468,14 @@ public class AdminController {
                 default:
             }
         }
-        return goBackToAdminPage(model);
+        return goToAdminPage(model, "Log");
+    }
+
+    @PostMapping("search/logs")
+    public String logSearch(Model model, String operation, String table, LocalDateTime date_from,
+                            LocalDateTime date_to, String contains, int limit) {
+        List<Log> logList = logs.findAll();
+
+        return goToAdminPage(model, "Log", logList);
     }
 }

@@ -1,4 +1,9 @@
-function chooseTable() {
+function chooseTable(whichTable) {
+    if(whichTable != null) {
+        document.getElementById(whichTable.toLowerCase() + "sRadio").checked = true;
+    } else {
+        //document.getElementById("timesRadio").checked = true;
+    }
     document.getElementById("timesTable").style.display = "none";
     document.getElementById("employeesTable").style.display = "none";
     document.getElementById("usersTable").style.display = "none";

@@ -3,6 +3,7 @@ package com.asimov.timeTracerSpringWeb.controllers;
 import com.asimov.timeTracerSpringWeb.models.*;
 
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,18 +22,13 @@ public class LoginController {
     private final Users users;
     private final Employees employees;
     private final Roles roles;
-    private final Projects projects;
-    private final Times times;
-    private final Logs logs;
+    @Autowired
+    PunchController punchController;
 
-    public LoginController(Users users, Employees employees, Roles roles,
-                           Projects projects, Times times, Logs logs) {
+    public LoginController(Users users, Employees employees, Roles roles) {
         this.users = users;
         this.employees = employees;
         this.roles = roles;
-        this.projects = projects;
-        this.times = times;
-        this.logs = logs;
     }
 
     @GetMapping("/")
@@ -70,13 +66,10 @@ public class LoginController {
                             //Access granted to Employee role
                             Optional<Employee> optEmp = employees.findById(dbUser.get().EmployeeID());
                             if(optEmp.isPresent()) {
-                                Employee emp = optEmp.get(); //EmployeeID must exist per db constraint??
-                                model.addAttribute("userId", dbUser.get().UserName());
-                                model.addAttribute("employeeId", String.format("%d", dbUser.get().EmployeeID()));
-                                model.addAttribute("employeeName", emp.Name());
-                                model.addAttribute("employeeSurname", emp.Surname());
-                                model.addAttribute("projects", projects.findAll());
-                                return "timePunch";
+                                Employee emp = optEmp.get();
+                                User newUser = new User(dbUser.get().UserName(), null,
+                                        null, dbUser.get().RoleID(), emp.ID());
+                                return punchController.punchIn(newUser, model);
                             } else {
                                 return "changePwdError";  //this error page is temporary, read the TODO
                                 //TODO This should never happen
@@ -95,13 +88,7 @@ public class LoginController {
                         }
                     } else {
                         //Access granted to Admin role
-                        model.addAttribute("projects", projects.findAll());
-                        model.addAttribute("users", users.findAll());
-                        model.addAttribute("employees", employees.findAll());
-                        model.addAttribute("roles", roles.findAll());
-                        model.addAttribute("times", times.findAll());
-                        model.addAttribute("logs", logs.findAll());
-                        return "admin";
+                        return "forward:/admin";
                     }
                 } else {
                     // Wrong Password

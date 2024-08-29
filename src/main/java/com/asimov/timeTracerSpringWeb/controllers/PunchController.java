@@ -1,20 +1,32 @@
 package com.asimov.timeTracerSpringWeb.controllers;
 
-import com.asimov.timeTracerSpringWeb.models.Time;
-import com.asimov.timeTracerSpringWeb.models.Times;
+import com.asimov.timeTracerSpringWeb.models.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import java.sql.Timestamp;
 
 @Controller
 public class PunchController {
 
     private final Times times;
+    private final Projects projects;
+    private final Employees employees;
 
-    public PunchController(Times times) {
+    public PunchController(Times times, Projects projects, Employees employees) {
         this.times = times;
+        this.projects = projects;
+        this.employees = employees;
+    }
+
+    public String punchIn(User user, Model model) {
+        Employee emp = employees.findById(user.EmployeeID()).get(); // already know employee exists
+        model.addAttribute("userId", user.UserName());
+        model.addAttribute("employeeId", String.format("%d", user.EmployeeID()));
+        model.addAttribute("employeeName", emp.Name());
+        model.addAttribute("employeeSurname", emp.Surname());
+        model.addAttribute("projects", projects.findAll());
+        return "timePunch";
     }
 
     @PostMapping("/punch")
