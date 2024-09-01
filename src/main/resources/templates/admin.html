@@ -7,7 +7,6 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/admin.css}">
     <title>Admin Console</title>
   </head>
-<!--  onload="chooseTable('${startTable}')"-->
   <body th:onload="chooseTable([[${startTable}]])">
     <h1>Admin Console</h1>
 
@@ -304,11 +303,11 @@
               <label for="table">Table: </label>
               <select name="table" id="table">
                 <option value="All">All</option>
-                <option value="Times">Times</option>
-                <option value="Employees">Employees</option>
-                <option value="Users">Users</option>
-                <option value="Projects">Projects</option>
-                <option value="Roles">Roles</option>
+                <option value="Time">Times</option>
+                <option value="Employee">Employees</option>
+                <option value="User">Users</option>
+                <option value="Project">Projects</option>
+                <option value="Role">Roles</option>
               </select>
             </span>
             <span>

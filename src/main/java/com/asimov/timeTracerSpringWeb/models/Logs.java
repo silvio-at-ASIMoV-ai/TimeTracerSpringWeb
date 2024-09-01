@@ -22,7 +22,7 @@ public class Logs {
                 rs.getString("Table"),
                 rs.getString("NewValues"),
                 rs.getString("OldValues"),
-                rs.getInt("undoId"),
+                rs.getInt("undoId") != 0 ? rs.getInt("undoId") : null,
                 rs.getTimestamp("timestamp"));
     }
 
@@ -47,6 +47,11 @@ public class Logs {
     public List<Log> findAllLimited(int limit) {
         String sql = "SELECT * FROM Logs";
         return jdbcTemplate.query(sql, Logs::mapLogRow).stream().limit(limit).toList();
+    }
+
+    public List<Log> findAllWhere(String where){
+        String sql = "SELECT * FROM Logs " + where;
+        return jdbcTemplate.query(sql, Logs::mapLogRow);
     }
 
 }

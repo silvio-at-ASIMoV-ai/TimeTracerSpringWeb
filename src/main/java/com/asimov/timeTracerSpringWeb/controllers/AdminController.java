@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -474,7 +475,41 @@ public class AdminController {
     @PostMapping("search/logs")
     public String logSearch(Model model, String operation, String table, LocalDateTime date_from,
                             LocalDateTime date_to, String contains, int limit) {
-        List<Log> logList = logs.findAll();
+
+        List<Log> logList;
+        List<String> sl = new ArrayList<String>();
+        String where = "";
+
+        if(!operation.equalsIgnoreCase("all")) sl.add("Operation = '" + operation + "'");
+        if(!table.equalsIgnoreCase("all")) sl.add("`Table` = '" + table + "'");
+        if(date_from != null && date_to != null) sl.
+            add("timestamp between '" + date_from + "' and '" + date_to + "'");
+        if(!contains.isBlank()) sl.
+            add("(NewValues like '%" + contains + "%' or OldValues like '%" + contains + "%')");
+
+        if(!sl.isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("WHERE ");
+            for(int i=0; i<sl.size() - 1; i++) {
+                sb.append(sl.get(i) + " AND ");
+            }
+            sb.append(sl.get(sl.size() - 1));
+            where = sb.toString();
+        }
+
+        if(limit > 0) {
+            if(!where.isBlank()) {
+                logList = logs.findAllWhere(where).stream().limit(limit).toList();
+            } else {
+                logList = logs.findAllLimited(limit);
+            }
+        } else {
+            if(!where.isBlank()) {
+                logList = logs.findAllWhere(where);
+            } else {
+                logList = logs.findAll();
+            }
+        }
 
         return goToAdminPage(model, "Log", logList);
     }
