@@ -112,6 +112,11 @@ public class AdminController {
         return "admin";
     }
 
+    @GetMapping("view/back/{table}")
+    String backToAdmin(Model model, @PathVariable String table) {
+        return goToAdminPage(model, table);
+    }
+
     @PostMapping("/edit/times")
     public String saveTime(@ModelAttribute Time time, Model model){
         Optional<Time> oldTime = times.findById(time.ID());

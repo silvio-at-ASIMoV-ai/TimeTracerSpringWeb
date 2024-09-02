@@ -2,8 +2,12 @@ body {
     background-color: powderblue;
 }
 
-div, table, p, h1, h2 {
+div, table, h1, h2 {
     margin: 1em 1em 1em 1em;
+}
+
+p {
+    margin: 0.5em 0.5em 0.5em 0.5em;
 }
 
 table, th, td  {
@@ -37,4 +41,12 @@ span {
 
 .Search {
     border: 1px solid;
+}
+
+.edit {
+    background-color: yellow;
+}
+
+.view {
+    background-color: aqua;
 }
