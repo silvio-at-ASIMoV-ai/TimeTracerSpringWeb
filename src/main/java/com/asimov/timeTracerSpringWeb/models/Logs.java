@@ -27,8 +27,8 @@ public class Logs {
     }
 
     public void save(Log newLog) {
-        String sql = "INSERT INTO Logs (Operation, Table, NewValues, OldValues, undoId, timestamp) " +
-                     "VALUES (?, ?, ?, ?, ? ,?)";
+        String sql = "INSERT INTO Logs (Operation, `Table`, NewValues, OldValues, undoId, timestamp) " +
+                     "VALUES (?, ?, ?, ?, ?, ?)";
         Object[] params = new Object[]{newLog.Operation(), newLog.Table(), newLog.NewValues(),
                                        newLog.OldValues(), newLog.undoId(), newLog.timestamp()};
         jdbcTemplate.update(sql, params);
