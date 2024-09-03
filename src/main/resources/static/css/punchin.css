@@ -1,29 +1,62 @@
-.container1 {
+div {
     display: grid;
-    grid-auto-flow: row;
-    grid-row-gap: 10px;
+    margin: 0.5em 0.5em 0.5em 0.5em;
 }
 
-.container2 {
+.page {
     display: grid;
-    grid-auto-flow: row;
-    grid-row-gap: 10px;
-  width: 200px;
+    grid-template-areas:
+    'title     title      title'
+    'projects  fixed-data buttons'
+    'projects  in-out     buttons'
+    'last-time last-time  last-time';
+    width:50%;
 }
 
-.container3 {
-  display: flex;
-  justify-content: left;
+.title {
+    grid-area: title;
 }
 
-.container4 {
+.title > h1, h2 {
+    margin-top: 10px;
+    margin-bottom: 10px;
     display: grid;
-    grid-auto-flow: row;
-    grid-row-gap: 10px;
-    width: 100px;
+    justify-content: center;
 }
 
-.container5 {
-  display: flex;
-  justify-content: left;
+.fixed-data {
+    grid-area: fixed-data;
+    width: 400px;
+    display: grid;
+    align-content: center;
+}
+
+.fixed-data > div {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.projects {
+    grid-area: projects;
+    width: 200px;
+}
+
+.in-out {
+    grid-area: in-out;
+    display:inline;
+}
+
+.buttons {
+    grid-area: buttons;
+    margin: 0.5em 0.5em 0.5em 0.5em;
+    justify-content: end;
+}
+
+.buttons > input {
+    margin: 0.5em 0.5em 0.5em 0.5em;
+    width: 120px;
+}
+
+.last-time {
+    grid-area: last-time;
 }

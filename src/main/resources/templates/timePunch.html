@@ -7,38 +7,42 @@
     <title>Time Punch</title>
   </head>
   <body>
-    <h1>Time Tracer</h1>
-    <h2>Time Punch</h2>
-    <form action="punch" method="post">
-      <div class="container1">
-        <div>Employee: <span th:text="${employeeName}"></span> <span th:text="${employeeSurname}"></span></div>
-        <div>Time: <span id="clock"><span id="date-time"></span></span><input type="hidden" id="dateTime" name="dateTime"></div>
+  <form action="punch" method="post">
+    <input name="userName" type="hidden" th:value="${userId}">
+    <input name="employeeId" type="hidden" th:value="${employeeId}">
+    <div class="page">
+      <div class="title">
+        <h1>Time Tracer</h1>
+        <h2>Time Punch</h2>
       </div>
-      <div class="container2">
+      <div class="fixed-data">
+        <div><span th:text="'Employee: ' + ${employeeName} + ' ' + ${employeeSurname}"></span></div>
+        <div><span id="date-time"></span><input type="hidden" id="dateTime" name="dateTime"></div>
+      </div>
+      <div class="projects">
         <div>Projects</div>
-        <select name="chooseProject" size="4" required>
+        <select name="chooseProject" size="10" required>
           <option th:each="project : ${projects}"
                   th:value="${project.id}"
                   th:text="${project.ProjectName}"></option>
         </select>
       </div>
-      <div class="container3">
-        <div><input name="inout" type="radio" value="IN" checked >IN</div>
-        <div><input name="inout" type="radio" value="OUT">OUT</div>
+      <div class="in-out">
+        <span><input name="inout" type="radio" value="IN" checked >IN</span>
+        <span><input name="inout" type="radio" value="OUT">OUT</span>
       </div>
-      <div class="container4">
+      <div class="buttons">
         <input type="submit" value="OK">
         <input type="button" value="Accept">
         <input type="button" value="Cancel">
         <input type="button" value="Remind">
         <input type="button" value="Ch. Pwd">
       </div>
-      <div class="container5">
+      <div class="last-time">
         <div>Punched in at 19/08/2024 12:39:08</div>
       </div>
-      <input name="userName" type="hidden" th:value="${userId}">
-      <input name="employeeId" type="hidden" th:value="${employeeId}">
-    </form>
-    <script src="scripts/clock.js" type="text/javascript"></script>
+    </div>
+  </form>
+   <script src="scripts/clock.js" type="text/javascript"></script>
   </body>
 </html>
