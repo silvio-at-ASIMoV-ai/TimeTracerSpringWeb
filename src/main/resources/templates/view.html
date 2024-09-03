@@ -64,7 +64,7 @@
 <!-- roles table-->
 <div th:style="${table} == 'roles' ? 'display:block' : 'display:none'">
     <div>Role <input class="view" readonly th:value="${table} == 'roles' ? ${role.RoleDesc} : ''"></div>
-    <div>Is Admin <input class="view" readonly th:value="${table} == 'roles' ? ${role.IsAdmin} : ''"></div>
+    <div>Is Admin <input type="checkbox" onclick="return false" class="view" readonly th:checked="${table} == 'roles' ? ${role.IsAdmin} : ''"></div>
     <div>Project ID <input class="view" readonly th:value="${table} == 'roles' ? ${role.ProjectId} : ''"></div>
     <div>
         <form  action="back/Role">

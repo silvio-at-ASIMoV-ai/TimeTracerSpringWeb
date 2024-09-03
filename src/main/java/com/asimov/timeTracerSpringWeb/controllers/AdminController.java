@@ -112,8 +112,8 @@ public class AdminController {
         return "admin";
     }
 
-    @GetMapping("view/back/{table}")
-    String backToAdmin(Model model, @PathVariable String table) {
+    @GetMapping("{from}/back/{table}")
+    String backToAdmin(Model model, @PathVariable String table, @PathVariable String from) {
         return goToAdminPage(model, table);
     }
 

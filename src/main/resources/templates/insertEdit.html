@@ -16,11 +16,16 @@
         <form action="times" method="post">
             <div>Employee Id <input class="edit" name="EmployeeID"></div>
             <div>Project Id <input class="edit" name="ProjectID"></div>
-            <div>Punched Time <input class="edit" name="PunchedTime"></div>
+            <div>Punched Time <input type="datetime-local" class="edit" name="PunchedTime"></div>
             <div>in <input class="edit" type="checkbox" name="in" ></div>
             <div class="inline"><input type="submit" value="Confirm"></div>
-            <div class="inline"><input type="button" value="Back" onclick="history.back()"></div>
         </form>
+        <div class="inline">
+            <form  action="back/Time">
+                <input type="submit" value="Back">
+            </form>
+        </div>
+
     </div>
 
     <!-- employees table-->
@@ -29,13 +34,17 @@
         <form action="employees" method="post">
             <div>Name <input class="edit" name="Name"></div>
             <div>Surname <input class="edit" name="Surname"></div>
-            <div>Date of birth <input class="edit" name="BirthDate"></div>
+            <div>Date of birth <input type="date" class="edit" name="BirthDate"></div>
             <div>Place of birth <input class="edit" name="BirthPlace"></div>
             <div>Social Security Number <input class="edit" name="SocialSecurityNum"></div>
             <div>Residence <input class="edit" name="Residence" size="60"></div>
             <div class="inline"><input type="submit" value="Confirm"></div>
-            <div class="inline"><input type="button" value="Back" onclick="history.back()"></div>
         </form>
+        <div class="inline">
+            <form  action="back/Employee">
+                <input type="submit" value="Back">
+            </form>
+        </div>
     </div>
 
     <!-- users table-->
@@ -46,8 +55,12 @@
             <div>Role ID <input class="edit" name="RoleID"></div>
             <div>Employee ID <input class="edit" name="EmployeeID"></div>
             <div class="inline"><input type="submit" value="Confirm"></div>
-            <div class="inline"><input type="button" value="Back" onclick="history.back()"></div>
         </form>
+        <div class="inline">
+            <form  action="back/User">
+                <input type="submit" value="Back">
+            </form>
+        </div>
     </div>
 
     <!-- projects table-->
@@ -56,8 +69,12 @@
         <form action="projects" method="post">
             <div>Project Name <input class="edit" name="ProjectName"></div>
             <div class="inline"><input type="submit" value="Confirm"></div>
-            <div class="inline"><input type="button" value="Back" onclick="history.back()"></div>
         </form>
+        <div class="inline">
+            <form  action="back/Project">
+                <input type="submit" value="Back">
+            </form>
+        </div>
     </div>
 
     <!-- roles table-->
@@ -65,11 +82,15 @@
         <h2>Roles</h2>
         <form action="roles" method="post">
             <div>Role <input class="edit" name="RoleDesc"></div>
-            <div>Is Admin <input class="edit" name="IsAdmin"></div>
+            <div>Is Admin <input type="checkbox" class="edit" name="IsAdmin"></div>
             <div>Project ID <input class="edit" name="ProjectID"></div>
             <div class="inline"><input type="submit" value="Confirm"></div>
-            <div class="inline"><input type="button" value="Back" onclick="history.back()"></div>
         </form>
+        <div class="inline">
+            <form  action="back/Role">
+                <input type="submit" value="Back">
+            </form>
+        </div>
     </div>
 </div>
 
@@ -85,17 +106,17 @@
             <input type="hidden" name="InsertUser" th:value="${table} == 'times' and not ${insert} ? ${time.InsertUser} : ''">
             <div>Employee Id <input class="edit" name="EmployeeID" th:value="${table} == 'times' and not ${insert} ? ${time.EmployeeID} : ''"></div>
             <div>Project Id <input class="edit" name="ProjectID" th:value="${table} == 'times' and not ${insert} ? ${time.ProjectID} : ''"></div>
-            <div>Punched Time <input class="edit" name="PunchedTime" th:value="${table} == 'times' and not ${insert} ? ${time.PunchedTime} : ''"></div>
+            <div>Punched Time <input type="datetime-local" class="edit" name="PunchedTime" th:value="${table} == 'times' and not ${insert} ? ${time.PunchedTime} : ''"></div>
             <div>in <input class="edit" type="checkbox" name="in" th:checked="${table} == 'times' and not ${insert} ? ${time.in} : ''"></div>
             <div class="inline"><input type="submit" value="Confirm"></div>
-            <div class="inline">
-                <div>
-                    <form  action="back/Time">
-                        <input type="submit" value="Back">
-                    </form>
-                </div>
-            </div>
         </form>
+        <div class="inline">
+            <div>
+                <form  action="back/Time">
+                    <input type="submit" value="Back">
+                </form>
+            </div>
+        </div>
     </div>
 
     <!-- employees table-->
@@ -105,19 +126,19 @@
             <input type="hidden" name="ID" th:value="${table} == 'employees' and not ${insert} ? ${employee.ID} : ''">
             <div>Name <input class="edit" name="Name" th:value="${table} == 'employees' and not ${insert} ? ${employee.Name} : ''"></div>
             <div>Surname <input class="edit" name="Surname" th:value="${table} == 'employees' and not ${insert} ? ${employee.Surname} : ''"></div>
-            <div>Date of birth <input class="edit" name="BirthDate" th:value="${table} == 'employees' and not ${insert} ? ${employee.BirthDate} : ''"></div>
+            <div>Date of birth <input type="date" class="edit" name="BirthDate" th:value="${table} == 'employees' and not ${insert} ? ${employee.BirthDate} : ''"></div>
             <div>Place of birth <input class="edit" name="BirthPlace" th:value="${table} == 'employees' and not ${insert} ? ${employee.BirthPlace} : ''"></div>
             <div>Social Security Number <input class="edit" name="SocialSecurityNum" th:value="${table} == 'employees' and not ${insert} ? ${employee.SocialSecurityNum} : ''"></div>
             <div>Residence <input class="edit" name="Residence" th:value="${table} == 'employees' and not ${insert} ? ${employee.Residence} : ''" size="60"></div>
             <div class="inline"><input type="submit" value="Confirm"></div>
-            <div class="inline">
-                <div>
-                    <form  action="back/Employee">
-                        <input type="submit" value="Back">
-                    </form>
-                </div>
-            </div>
         </form>
+        <div class="inline">
+            <div>
+                <form  action="back/Employee">
+                    <input type="submit" value="Back">
+                </form>
+            </div>
+        </div>
     </div>
 
     <!-- users table-->
@@ -128,14 +149,14 @@
             <div>Role ID <input class="edit" name="RoleID" th:value="${table} == 'users' and not ${insert} ? ${user.RoleID} : ''"></div>
             <div>Employee ID <input class="edit" name="EmployeeID" th:value="${table} == 'users' and not ${insert} ? ${user.EmployeeID} : ''"></div>
             <div class="inline"><input type="submit" value="Confirm"></div>
-            <div class="inline">
-                <div>
-                    <form  action="back/User">
-                        <input type="submit" value="Back">
-                    </form>
-                </div>
-            </div>
         </form>
+        <div class="inline">
+            <div>
+                <form  action="back/User">
+                    <input type="submit" value="Back">
+                </form>
+            </div>
+        </div>
     </div>
 
     <!-- projects table-->
@@ -145,14 +166,14 @@
             <input type="hidden" name="id" th:value="${table} == 'projects' and not ${insert} ? ${project.id} : ''">
             <div>Project Name <input class="edit" name="ProjectName" th:value="${table} == 'projects' and not ${insert}? ${project.ProjectName} : ''"></div>
             <div class="inline"><input type="submit" value="Confirm"></div>
-            <div class="inline">
-                <div>
-                    <form  action="back/Project">
-                        <input type="submit" value="Back">
-                    </form>
-                </div>
-            </div>
         </form>
+        <div class="inline">
+            <div>
+                <form  action="back/Project">
+                    <input type="submit" value="Back">
+                </form>
+            </div>
+        </div>
     </div>
 
     <!-- roles table-->
@@ -161,17 +182,17 @@
         <form action="roles" method="post">
             <input type="hidden" name="ID" th:value="${table} == 'roles' and not ${insert} ? ${role.ID} : ''">
             <div>Role <input class="edit" name="RoleDesc" th:value="${table} == 'roles' and not ${insert} ? ${role.RoleDesc} : ''"></div>
-            <div>Is Admin <input class="edit" name="IsAdmin" th:value="${table} == 'roles' and not ${insert} ? ${role.IsAdmin} : ''"></div>
+            <div>Is Admin <input type="checkbox" class="edit" name="IsAdmin" th:value="${table} == 'roles' and not ${insert} ? ${role.IsAdmin} : ''"></div>
             <div>Project ID <input class="edit" name="ProjectId" th:value="${table} == 'roles' and not ${insert} ? ${role.ProjectId} : ''"></div>
             <div class="inline"><input type="submit" value="Confirm"></div>
-            <div class="inline">
-                <div>
-                    <form  action="back/Role">
-                        <input type="submit" value="Back">
-                    </form>
-                </div>
-            </div>
         </form>
+        <div class="inline">
+            <div>
+                <form  action="back/Role">
+                    <input type="submit" value="Back">
+                </form>
+            </div>
+        </div>
     </div>
 
 </div>
