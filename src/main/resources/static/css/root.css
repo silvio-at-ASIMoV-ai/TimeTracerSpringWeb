@@ -11,19 +11,19 @@ p {
 }
 
 table, th, td  {
-  border: 2px solid;
-  border-collapse: collapse;
-  border-color: black;
+    border: 2px solid;
+    border-collapse: collapse;
+    border-color: black;
 }
 
 th, td {
-  padding: 3px;
+    padding: 3px;
 }
 
 tbody tr:hover {
-  background-color: teal;
-  color: white;
-  border-color: black;
+    background-color: teal;
+    color: white;
+    border-color: black;
 }
 
 span {
@@ -36,11 +36,11 @@ span {
 }
 
 .inline {
- display:inline;
+    display:inline;
 }
 
 .Search {
-    border: 1px solid;
+    border: 2px solid;
 }
 
 .edit {
