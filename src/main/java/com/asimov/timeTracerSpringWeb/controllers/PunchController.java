@@ -31,7 +31,9 @@ public class PunchController {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         Optional<Time> optLastTime = times.findFirstByEmployeeIDOrderByPunchedTimeDesc(emp.ID());
-        Optional<Project> optProject = projects.findById(optLastTime.get().ProjectID());
+        Optional<Project> optProject = optLastTime.isPresent() ?
+                projects.findById(optLastTime.get().ProjectID()) :
+                Optional.empty();
         String lastTime = optLastTime.isPresent() ?
                 optLastTime.get().in() ?
                         String.format("Punched in at %s", dateFormat.format(optLastTime.get().PunchedTime())) :
@@ -40,7 +42,7 @@ public class PunchController {
         String lastProject = optProject.isPresent() ? optProject.get().ProjectName() : "";
         model.addAttribute("lastPunchedTime", lastTime);
         model.addAttribute("lastProject", lastProject);
-        model.addAttribute("in", optLastTime.isPresent() ? optLastTime.get().in() : true);
+        model.addAttribute("in", optLastTime.isPresent() ? optLastTime.get().in() : false);
         return "timePunch";
     }
 
