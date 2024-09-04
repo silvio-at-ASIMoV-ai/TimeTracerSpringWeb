@@ -7,9 +7,10 @@
     <title>Time Punch</title>
   </head>
   <body>
-  <form action="punch" method="post">
+  <form id="punchin" action="punch" method="post">
     <input name="userName" type="hidden" th:value="${userId}">
     <input name="employeeId" type="hidden" th:value="${employeeId}">
+    <input id="logout" name="logout" type="hidden" value="true">
     <div class="page">
       <div class="title">
         <h1>Time Tracer</h1>
@@ -21,25 +22,29 @@
       </div>
       <div class="projects">
         <div>Projects</div>
-        <select name="chooseProject" size="10" required>
+        <select id="chooseProject" name="chooseProject" size="10" required>
           <option th:each="project : ${projects}"
                   th:value="${project.id}"
-                  th:text="${project.ProjectName}"></option>
+                  th:text="${project.ProjectName}"
+                  th:selected="${lastProject} == *{project.ProjectName}">
+                  <!-- th:selected="(${choice.id} == *{category.id})" -->
+
+          </option>
         </select>
       </div>
       <div class="in-out">
-        <span><input name="inout" type="radio" value="IN" checked >IN</span>
-        <span><input name="inout" type="radio" value="OUT">OUT</span>
+        <span><input name="inout" type="radio" value="IN" th:checked="${!in}">IN</span>
+        <span><input name="inout" type="radio" value="OUT" th:checked="${in}">OUT</span>
       </div>
       <div class="buttons">
         <input type="submit" value="OK">
-        <input type="button" value="Accept">
-        <input type="button" value="Cancel">
+        <input type="button" value="Accept" onclick="document.getElementById('logout').value='false'; document.getElementById('punchin').submit()">
+        <input type="button" value="Cancel" onclick="window.location.href='/'">
         <input type="button" value="Remind">
         <input type="button" value="Ch. Pwd">
       </div>
       <div class="last-time">
-        <div>Punched in at 19/08/2024 12:39:08</div>
+        <div th:text="${lastPunchedTime}"></div>
       </div>
     </div>
   </form>
