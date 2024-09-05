@@ -393,7 +393,7 @@ public class AdminController {
     private String removeId(String repr) {
         int start = repr.indexOf(":");
         int end = repr.indexOf(",", start);
-        return repr.substring(0, start) + ":null" + repr.substring(end, repr.length());
+        return repr.substring(0, start) + ":null" + repr.substring(end);
     }
 
     private void undoDelete(Log log) {
@@ -479,7 +479,7 @@ public class AdminController {
                             LocalDateTime date_to, String contains, int limit) {
 
         List<Log> logList;
-        List<String> sl = new ArrayList<String>();
+        List<String> sl = new ArrayList<>();
         String where = "";
 
         if(!operation.equalsIgnoreCase("all")) sl.add("Operation = '" + operation + "'");
@@ -493,7 +493,8 @@ public class AdminController {
             StringBuilder sb = new StringBuilder();
             sb.append("WHERE ");
             for(int i=0; i<sl.size() - 1; i++) {
-                sb.append(sl.get(i) + " AND ");
+                sb.append(sl.get(i));
+                sb.append(" AND ");
             }
             sb.append(sl.get(sl.size() - 1));
             where = sb.toString();

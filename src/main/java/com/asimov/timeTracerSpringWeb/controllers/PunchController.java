@@ -22,28 +22,33 @@ public class PunchController {
     }
 
     public String punchIn(User user, Model model) {
-        Employee emp = employees.findById(user.EmployeeID()).get(); // already know employee exists
-        model.addAttribute("userId", user.UserName());
-        model.addAttribute("employeeId", String.format("%d", user.EmployeeID()));
-        model.addAttribute("employeeName", emp.Name());
-        model.addAttribute("employeeSurname", emp.Surname());
-        model.addAttribute("projects", projects.findAll());
+        Optional<Employee> optEmp = employees.findById(user.EmployeeID());
+        if(optEmp.isPresent()) {
+            Employee emp = optEmp.get();
+            model.addAttribute("userId", user.UserName());
+            model.addAttribute("employeeId", String.format("%d", user.EmployeeID()));
+            model.addAttribute("employeeName", emp.Name());
+            model.addAttribute("employeeSurname", emp.Surname());
+            model.addAttribute("projects", projects.findAll());
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        Optional<Time> optLastTime = times.findFirstByEmployeeIDOrderByPunchedTimeDesc(emp.ID());
-        Optional<Project> optProject = optLastTime.isPresent() ?
-                projects.findById(optLastTime.get().ProjectID()) :
-                Optional.empty();
-        String lastTime = optLastTime.isPresent() ?
-                optLastTime.get().in() ?
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            Optional<Time> optLastTime = times.findFirstByEmployeeIDOrderByPunchedTimeDesc(emp.ID());
+            Optional<Project> optProject = optLastTime.flatMap(time -> projects.findById(time.ProjectID()));
+            String lastTime = optLastTime.map(
+                time -> (
+                    time.in() ?
                         String.format("Punched in at %s", dateFormat.format(optLastTime.get().PunchedTime())) :
                         String.format("Punched out at %s", dateFormat.format(optLastTime.get().PunchedTime()))
-                : "";
-        String lastProject = optProject.isPresent() ? optProject.get().ProjectName() : "";
-        model.addAttribute("lastPunchedTime", lastTime);
-        model.addAttribute("lastProject", lastProject);
-        model.addAttribute("in", optLastTime.isPresent() ? optLastTime.get().in() : false);
-        return "timePunch";
+                )
+            ).orElse("");
+            String lastProject = optProject.isPresent() ? optProject.get().ProjectName() : "";
+            model.addAttribute("lastPunchedTime", lastTime);
+            model.addAttribute("lastProject", lastProject);
+            model.addAttribute("in", optLastTime.map(Time::in).orElse(false));
+            return "timePunch";
+        } else {
+            return "error";
+        }
     }
 
     @PostMapping("/punch")
@@ -64,10 +69,7 @@ public class PunchController {
         if(logout) {
             return "login";
         } else {
-            Employee emp = employees.findById(employeeId).get();
-            User newUser = new User(userName, null, null, null, emp.ID());
-            return punchIn(newUser, model);
+            return punchIn(new User(userName, null, null, null, employeeId), model);
         }
-
     }
 }
