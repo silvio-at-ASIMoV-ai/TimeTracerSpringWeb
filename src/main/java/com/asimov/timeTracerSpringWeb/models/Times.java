@@ -13,6 +13,6 @@ public interface Times extends ListCrudRepository<Time, Integer> {
             ORDER BY PunchedTime DESC
             LIMIT 0, 1
             """)
-    public Optional<Time> findFirstByEmployeeIDOrderByPunchedTimeDesc(int empId);
+    Optional<Time> findFirstByEmployeeIDOrderByPunchedTimeDesc(int empId);
 
 }

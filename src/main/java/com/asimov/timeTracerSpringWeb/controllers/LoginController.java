@@ -59,7 +59,7 @@ public class LoginController {
                 }
             } else {
                 if(checkPassword(user.Password(), dbUser.get().Password())) {
-                    Role role = roles.findById(dbUser.get().RoleID()).get(); //RoleID must exist per db constraint
+                    Role role = roles.findById(dbUser.get().RoleID()).orElse(new Role());
                     if(!role.IsAdmin()) {
                         // Role != Admin
                         if(dbUser.get().EmployeeID() != null) {

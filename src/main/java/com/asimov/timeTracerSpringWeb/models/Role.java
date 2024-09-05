@@ -21,6 +21,10 @@ public record Role(
         Integer ProjectId
 )
 {
+        public Role() {
+                this(null, null, null, null);
+        }
+
         public static Optional<Role> fromString(String repr) {
                 try {
                         ObjectMapper objectMapper = new ObjectMapper();

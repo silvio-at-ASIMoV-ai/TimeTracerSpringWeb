@@ -16,6 +16,10 @@ public record Project (
     @Column("PROJECTNAME")
     String ProjectName
 ) {
+    public Project() {
+        this(null, null);
+    }
+
     public static Optional<Project> fromString(String repr) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -34,22 +38,5 @@ public record Project (
             return "";
         }
     }
-
-//    public static void main(String[] args) {
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        Project prj1 = new Project(1, "Learning");
-////        try {
-////            String json = objectMapper.writeValueAsString(prj1);
-////            System.out.println(json);
-////            Project prj2 = objectMapper.readValue(json, Project.class);
-////            System.out.println(prj2);
-//            System.out.println(prj1);
-//            Optional<Project> prj2 = Project.fromString(prj1.toString());
-//            if(prj2.isPresent()) System.out.println(prj2.get());
-////        } catch (JsonProcessingException e) {
-////
-////        }
-//
-//    }
 
 }

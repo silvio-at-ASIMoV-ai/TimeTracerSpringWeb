@@ -30,6 +30,11 @@ public record Time(
         @Column("MODIFYTIMESTAMP")
         Timestamp ModifyTimestamp
 ) {
+        public Time() {
+                this(null, null, null, null, null,
+               null, null, null, null);
+        }
+
         public static Optional<Time> fromString(String repr) {
                 try {
                         ObjectMapper objectMapper = new ObjectMapper();

@@ -19,4 +19,8 @@ public record Log(
         @Column("UNDOID")
         Integer undoId,
         Timestamp timestamp
-) { }
+) {
+        public Log() {
+                this(null, null, null, null, null, null, null);
+        }
+}

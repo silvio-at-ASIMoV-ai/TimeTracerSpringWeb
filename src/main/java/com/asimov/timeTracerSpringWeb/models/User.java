@@ -21,7 +21,11 @@ public record User(
         Integer RoleID,
         Integer EmployeeID
 ) {
-        public static Optional<User> fromString(String repr) {
+    public User() {
+        this(null, null, null, null, null);
+    }
+
+    public static Optional<User> fromString(String repr) {
                 try {
                         ObjectMapper objectMapper = new ObjectMapper();
                         return Optional.of(objectMapper.readValue(repr, User.class));
