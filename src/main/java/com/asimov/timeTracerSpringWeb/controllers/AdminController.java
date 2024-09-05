@@ -7,10 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 
 @Controller
@@ -105,7 +102,7 @@ public class AdminController {
         model.addAttribute("employees", employees.findAll());
         model.addAttribute("roles", roles.findAll());
         model.addAttribute("times", times.findAll());
-        if(logList == null) model.addAttribute("logs", logs.findAllLimited(limit));
+        if(logList == null) model.addAttribute("logs", logs.findAllLimitedReversed(limit));
         else model.addAttribute("logs", logList);
         model.addAttribute("startTable", startTable);
         model.addAttribute("limit", limit);
@@ -504,15 +501,15 @@ public class AdminController {
 
         if(limit > 0) {
             if(!where.isBlank()) {
-                logList = logs.findAllWhere(where).stream().limit(limit).toList();
+                logList = logs.findAllWhereReversed(where).stream().limit(limit).toList();
             } else {
-                logList = logs.findAllLimited(limit);
+                logList = logs.findAllLimitedReversed(limit);
             }
         } else {
             if(!where.isBlank()) {
-                logList = logs.findAllWhere(where);
+                logList = logs.findAllWhereReversed(where);
             } else {
-                logList = logs.findAll();
+                logList = logs.findAllReversed();
             }
         }
 

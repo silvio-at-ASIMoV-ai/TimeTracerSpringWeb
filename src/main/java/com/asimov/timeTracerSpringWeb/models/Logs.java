@@ -44,13 +44,28 @@ public class Logs {
         return jdbcTemplate.query(sql, Logs::mapLogRow).stream().toList();
     }
 
+    public List<Log> findAllReversed() {
+        String sql = "SELECT * FROM Logs ORDER BY timestamp DESC";
+        return jdbcTemplate.query(sql, Logs::mapLogRow).stream().toList();
+    }
+
     public List<Log> findAllLimited(int limit) {
         String sql = "SELECT * FROM Logs";
         return jdbcTemplate.query(sql, Logs::mapLogRow).stream().limit(limit).toList();
     }
 
+    public List<Log> findAllLimitedReversed(int limit) {
+        String sql = "SELECT * FROM Logs ORDER BY timestamp DESC";
+        return jdbcTemplate.query(sql, Logs::mapLogRow).stream().limit(limit).toList();
+    }
+
     public List<Log> findAllWhere(String where){
         String sql = "SELECT * FROM Logs " + where;
+        return jdbcTemplate.query(sql, Logs::mapLogRow);
+    }
+
+    public List<Log> findAllWhereReversed(String where){
+        String sql = "SELECT * FROM Logs "  + where + " ORDER BY timestamp DESC ";
         return jdbcTemplate.query(sql, Logs::mapLogRow);
     }
 

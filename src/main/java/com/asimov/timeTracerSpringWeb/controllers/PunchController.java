@@ -56,25 +56,16 @@ public class PunchController {
         String hour = dateTime.substring(18,20);
         String minute = dateTime.substring(21,23);
         String second = dateTime.substring(24,26);
-        Timestamp time = Timestamp.valueOf(year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second);
-        Time punchedTime = new Time(
-                null,
-                employeeId,
-                chooseProject,
-                time,
-                in,
-                userName,
-                time,
-                null,
-                null
-        );
+        Timestamp time = Timestamp.valueOf(year + "-" + month + "-" + day + " "
+                + hour + ":" + minute + ":" + second);
+        Time punchedTime = new Time(null, employeeId, chooseProject, time,
+                in, userName, time,null,null);
         times.save(punchedTime);
         if(logout) {
             return "login";
         } else {
             Employee emp = employees.findById(employeeId).get();
-            User newUser = new User(userName, null,
-                    null, null, emp.ID());
+            User newUser = new User(userName, null, null, null, emp.ID());
             return punchIn(newUser, model);
         }
 
