@@ -16,8 +16,8 @@ public record Project (
     @Column("PROJECTNAME")
     String ProjectName
 ) {
-    public Project() {
-        this(null, null);
+    public static Project empty() {
+        return new Project(null, null);
     }
 
     public static Optional<Project> fromString(String repr) {

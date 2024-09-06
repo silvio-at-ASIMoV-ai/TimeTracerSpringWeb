@@ -24,9 +24,9 @@ public record Employee(
         String SocialSecurityNum,
         String Residence
 ) {
-        public Employee() {
-                this(null, null, null, null,
-                   null, null, null);
+        public static Employee empty() {
+                return new Employee(null, null, null, null,
+                        null, null, null);
         }
 
         public static Optional<Employee> fromString(String repr) {

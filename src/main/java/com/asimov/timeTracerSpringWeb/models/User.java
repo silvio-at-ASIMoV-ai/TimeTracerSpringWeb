@@ -21,8 +21,8 @@ public record User(
         Integer RoleID,
         Integer EmployeeID
 ) {
-    public User() {
-        this(null, null, null, null, null);
+    public static User empty() {
+        return new User(null, null, null, null, null);
     }
 
     public static Optional<User> fromString(String repr) {

@@ -30,8 +30,8 @@ public record Time(
         @Column("MODIFYTIMESTAMP")
         Timestamp ModifyTimestamp
 ) {
-        public Time() {
-                this(null, null, null, null, null,
+        public static Time empty() {
+                return new Time(null, null, null, null, null,
                null, null, null, null);
         }
 

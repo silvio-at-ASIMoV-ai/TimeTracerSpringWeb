@@ -20,7 +20,8 @@ public record Log(
         Integer undoId,
         Timestamp timestamp
 ) {
-        public Log() {
-                this(null, null, null, null, null, null, null);
+        public static Log empty() {
+                return new Log(null, null, null, null,
+                        null, null, null);
         }
 }

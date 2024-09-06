@@ -41,22 +41,22 @@ public class AdminController {
         model.addAttribute("table", pathVariables.get("table"));
         switch (pathVariables.get("table")) {
             case "times": model.addAttribute("time", times.findById(Integer.parseInt(id))
-                    .orElse(new Time()));
+                    .orElse(Time.empty()));
                 break;
             case "employees": model.addAttribute("employee", employees.findById(Integer.parseInt(id))
-                    .orElse(new Employee()));
+                    .orElse(Employee.empty()));
                 break;
             case "users": model.addAttribute("user", users.findById(id)
-                    .orElse(new User()));
+                    .orElse(User.empty()));
                 break;
             case "projects": model.addAttribute("project", projects.findById(Integer.parseInt(id))
-                    .orElse(new Project()));
+                    .orElse(Project.empty()));
                 break;
             case "roles": model.addAttribute("role", roles.findById(Integer.parseInt(id))
-                    .orElse(new Role()));
+                    .orElse(Role.empty()));
                 break;
             case "logs": model.addAttribute("log", logs.findById(Integer.parseInt(id))
-                    .orElse(new Log()));
+                    .orElse(Log.empty()));
                 break;
             default:
         }
@@ -69,19 +69,19 @@ public class AdminController {
         model.addAttribute("table", pathVariables.get("table"));
         switch (pathVariables.get("table")) {
             case "times": model.addAttribute("time", times.findById(Integer.parseInt(id))
-                    .orElse(new Time()));
+                    .orElse(Time.empty()));
                 break;
             case "employees": model.addAttribute("employee", employees.findById(Integer.parseInt(id))
-                    .orElse(new Employee()));
+                    .orElse(Employee.empty()));
                 break;
             case "users": model.addAttribute("user", users.findById(id)
-                    .orElse(new User()));
+                    .orElse(User.empty()));
                 break;
             case "projects": model.addAttribute("project", projects.findById(Integer.parseInt(id))
-                    .orElse(new Project()));
+                    .orElse(Project.empty()));
                 break;
             case "roles": model.addAttribute("role", roles.findById(Integer.parseInt(id))
-                    .orElse(new Role()));
+                    .orElse(Role.empty()));
                 break;
             default:
         }
@@ -133,7 +133,7 @@ public class AdminController {
                 time.PunchedTime(), time.in(), time.InsertUser(), time.InsertTimestamp(),
                 "Admin", new Timestamp(System.currentTimeMillis()));
         Log log = new Log(null,"Edit", "Time", newTime.toString(),
-                oldTime.orElse(new Time()).toString(),null, new Timestamp(System.currentTimeMillis()));
+                oldTime.orElse(Time.empty()).toString(),null, new Timestamp(System.currentTimeMillis()));
         times.save(newTime);
         logs.save(log);
         return goToAdminPage(model, "Time");
@@ -146,7 +146,7 @@ public class AdminController {
                 employee.BirthDate(), employee.BirthPlace(), employee.SocialSecurityNum(),
                 employee.Residence());
         Log log = new Log(null,"Edit", "Employee", newEmployee.toString(),
-                oldEmployee.orElse(new Employee()).toString(), null, new Timestamp(System.currentTimeMillis()));
+                oldEmployee.orElse(Employee.empty()).toString(), null, new Timestamp(System.currentTimeMillis()));
         employees.save(newEmployee);
         logs.save(log);
         return goToAdminPage(model, "Employee");
@@ -158,7 +158,7 @@ public class AdminController {
         User newUser = new User(user.UserName(), null, null,
                 user.RoleID(), user.EmployeeID());
         Log log = new Log(null,"Edit", "User", newUser.toString(),
-                oldUser.orElse(new User()).toString(), null, new Timestamp(System.currentTimeMillis()));
+                oldUser.orElse(User.empty()).toString(), null, new Timestamp(System.currentTimeMillis()));
         users.update(newUser);
         logs.save(log);
         return goToAdminPage(model, "User");
@@ -169,7 +169,7 @@ public class AdminController {
         Optional<Project> oldProject = projects.findById(project.id());
         Project newProject = new Project(project.id(), project.ProjectName());
         Log log = new Log(null,"Edit", "Project", newProject.toString(),
-                oldProject.orElse(new Project()).toString(), null, new Timestamp(System.currentTimeMillis()));
+                oldProject.orElse(Project.empty()).toString(), null, new Timestamp(System.currentTimeMillis()));
         projects.save(newProject);
         logs.save(log);
         return goToAdminPage(model, "Project");
@@ -180,7 +180,7 @@ public class AdminController {
         Optional<Role> oldRole = roles.findById(role.ID());
         Role newRole = new Role(role.ID(), role.RoleDesc(), role.IsAdmin(), role.ProjectId());
         Log log = new Log(null,"Edit", "Role", newRole.toString(),
-                oldRole.orElse(new Role()).toString(), null, new Timestamp(System.currentTimeMillis()));
+                oldRole.orElse(Role.empty()).toString(), null, new Timestamp(System.currentTimeMillis()));
         roles.save(newRole);
         logs.save(log);
         return goToAdminPage(model, "Role");
@@ -251,35 +251,35 @@ public class AdminController {
             case "times":
                 Optional<Time> oldTime = times.findById(Integer.parseInt(id));
                 log = new Log(null,"Delete", "Time", "",
-                        oldTime.orElse(new Time()).toString(), null, new Timestamp(System.currentTimeMillis()));
+                        oldTime.orElse(Time.empty()).toString(), null, new Timestamp(System.currentTimeMillis()));
                 times.deleteById(Integer.parseInt(id));
                 logs.save(log);
                 break;
             case "employees":
                 Optional<Employee> oldEmployee = employees.findById(Integer.parseInt(id));
                 log = new Log(null,"Delete", "Employee", "",
-                        oldEmployee.orElse(new Employee()).toString(), null, new Timestamp(System.currentTimeMillis()));
+                        oldEmployee.orElse(Employee.empty()).toString(), null, new Timestamp(System.currentTimeMillis()));
                 employees.deleteById(Integer.parseInt(id));
                 logs.save(log);
                 break;
             case "users":
                 Optional<User> oldUser = users.findByIdWithoutPassword(id);
                 log = new Log(null,"Delete", "User", "",
-                        oldUser.orElse(new User()).toString(), null, new Timestamp(System.currentTimeMillis()));
+                        oldUser.orElse(User.empty()).toString(), null, new Timestamp(System.currentTimeMillis()));
                 users.deleteById(id);
                 logs.save(log);
                 break;
             case "projects":
                 Optional<Project> oldProject = projects.findById(Integer.parseInt(id));
                 log = new Log(null,"Delete", "Project", "",
-                        oldProject.orElse(new Project()).toString(), null, new Timestamp(System.currentTimeMillis()));
+                        oldProject.orElse(Project.empty()).toString(), null, new Timestamp(System.currentTimeMillis()));
                 projects.deleteById(Integer.parseInt(id));
                 logs.save(log);
                 break;
             case "roles":
                 Optional<Role> oldRole = roles.findById(Integer.parseInt(id));
                 log = new Log(null,"Delete", "Role", "",
-                        oldRole.orElse(new Role()).toString(), null, new Timestamp(System.currentTimeMillis()));
+                        oldRole.orElse(Role.empty()).toString(), null, new Timestamp(System.currentTimeMillis()));
                 roles.deleteById(Integer.parseInt(id));
                 logs.save(log);
                 break;
@@ -309,35 +309,35 @@ public class AdminController {
             case "Time":
                 Optional<Time> oldTime = times.findById(Integer.parseInt(id));
                 newLog = new Log(null,"Delete", "Time", "",
-                        oldTime.orElse(new Time()).toString(), log.ID(), new Timestamp(System.currentTimeMillis()));
+                        oldTime.orElse(Time.empty()).toString(), log.ID(), new Timestamp(System.currentTimeMillis()));
                 times.deleteById(Integer.parseInt(id));
                 logs.save(newLog);
                 break;
             case "Employee":
                 Optional<Employee> oldEmployee = employees.findById(Integer.parseInt(id));
                 newLog = new Log(null,"Delete", "Employee", "",
-                        oldEmployee.orElse(new Employee()).toString(), log.ID(), new Timestamp(System.currentTimeMillis()));
+                        oldEmployee.orElse(Employee.empty()).toString(), log.ID(), new Timestamp(System.currentTimeMillis()));
                 employees.deleteById(Integer.parseInt(id));
                 logs.save(newLog);
                 break;
             case "Project":
                 Optional<Project> oldProject = projects.findById(Integer.parseInt(id));
                 newLog = new Log(null,"Delete", "Project", "",
-                        oldProject.orElse(new Project()).toString(), log.ID(), new Timestamp(System.currentTimeMillis()));
+                        oldProject.orElse(Project.empty()).toString(), log.ID(), new Timestamp(System.currentTimeMillis()));
                 projects.deleteById(Integer.parseInt(id));
                 logs.save(newLog);
                 break;
             case "User":
                 Optional<User> oldUser = users.findByIdWithoutPassword(id);
                 newLog = new Log(null,"Delete", "User", "",
-                        oldUser.orElse(new User()).toString(), log.ID(), new Timestamp(System.currentTimeMillis()));
+                        oldUser.orElse(User.empty()).toString(), log.ID(), new Timestamp(System.currentTimeMillis()));
                 users.deleteById(id);
                 logs.save(newLog);
                 break;
             case "Role":
                 Optional<Role> oldRole = roles.findById(Integer.parseInt(id));
                 newLog = new Log(null,"Delete", "Role", "",
-                        oldRole.orElse(new Role()).toString(), log.ID(), new Timestamp(System.currentTimeMillis()));
+                        oldRole.orElse(Role.empty()).toString(), log.ID(), new Timestamp(System.currentTimeMillis()));
                 roles.deleteById(Integer.parseInt(id));
                 logs.save(newLog);
                 break;
