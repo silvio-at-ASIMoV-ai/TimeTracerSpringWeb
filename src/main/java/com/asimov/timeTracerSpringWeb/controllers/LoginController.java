@@ -44,12 +44,7 @@ public class LoginController {
                 // reset password
                 Timestamp now = new Timestamp(new java.util.Date().getTime());
                 Timestamp reset = dbUser.get().ResetTime();
-
-                long millis = now.getTime() - reset.getTime();
-                int secs = (int) (millis / 1000);
-                int minutes = (secs % 3600) / 60;
-
-                if(minutes < 15) {
+                if(now.getTime() - reset.getTime() < 900000) {   // 15 minutes
                     // ok to reset password
                     model.addAttribute("userId", dbUser.get().UserName());
                     return "changePwd";
