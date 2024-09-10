@@ -130,8 +130,8 @@ public class AdminController {
     public String saveTime(@ModelAttribute Time time, Model model){
         Optional<Time> oldTime = times.findById(time.ID());
         Time newTime = new Time(time.ID(), time.EmployeeID(), time.ProjectID(),
-                time.PunchedTime(), time.in(), time.InsertUser(), time.InsertTimestamp(),
-                "Admin", new Timestamp(System.currentTimeMillis()));
+                time.PunchedTime(), time.in() != null ? time.in() : false, time.InsertUser(),
+                time.InsertTimestamp(),"Admin", new Timestamp(System.currentTimeMillis()));
         Log log = new Log(null,"Edit", "Time", newTime.toString(),
                 oldTime.orElse(Time.empty()).toString(),null, new Timestamp(System.currentTimeMillis()));
         times.save(newTime);
