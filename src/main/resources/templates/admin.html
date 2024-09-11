@@ -8,56 +8,60 @@
     <title>Admin Console</title>
   </head>
   <body th:onload="chooseTable([[${startTable}]])">
-    <h1>Admin Console</h1>
+    <h1>Time Tracer</h1>
+    <h2>Admin Console</h2>
+    <div class="menu">
+      <div class="buttons">
+        <p>
+          <input type="button" value="Ch. Pwd">
+          <input type="button" value="Reports">
+          <a href="/"><input type="button" value="Close"></a>
+        </p>
+      </div>
 
-    <div class="buttons">
-      <p>
-        <input type="button" value="Ch. Pwd">
-        <input type="button" value="Reports">
-        <a href="/"><input type="button" value="Close"></a>
-      </p>
-    </div>
-
-    <div class="adminTableChoice">
-      <p>
-        <input id="timesRadio" name="tableChoice" type="radio" onclick="chooseTable()" checked>Times
-        <input id="employeesRadio" name="tableChoice" type="radio" onclick="chooseTable('Employee')">Employees
-        <input id="usersRadio" name="tableChoice" type="radio" onclick="chooseTable('User')">Users
-        <input id="projectsRadio" name="tableChoice" type="radio" onclick="chooseTable('Project')">Projects
-        <input id="rolesRadio" name="tableChoice" type="radio" onclick="chooseTable('Role')">Roles
-        <input id="logsRadio" name="tableChoice" type="radio" onclick="chooseTable('Log')">Logs
-      </p>
+      <div class="adminTableChoice">
+        <p>
+          <input id="timesRadio" name="tableChoice" type="radio" onclick="chooseTable()" checked>Times
+          <input id="employeesRadio" name="tableChoice" type="radio" onclick="chooseTable('Employee')">Employees
+          <input id="usersRadio" name="tableChoice" type="radio" onclick="chooseTable('User')">Users
+          <input id="projectsRadio" name="tableChoice" type="radio" onclick="chooseTable('Project')">Projects
+          <input id="rolesRadio" name="tableChoice" type="radio" onclick="chooseTable('Role')">Roles
+          <input id="logsRadio" name="tableChoice" type="radio" onclick="chooseTable('Log')">Logs
+        </p>
+      </div>
     </div>
 
     <div class="AdminTable" id="projectsTable" style="display:none;">
-      <div>Projects</div>
+      <div><h3>Projects</h3></div>
       <table>
         <thead>
         <tr>
           <th>id</th>
           <th>Project Name</th>
-          <th>&nbsp;</th>
-          <th>&nbsp;</th>
-          <th>&nbsp;</th>
+          <th class="crud-menu" colspan="3">
+            <form action="/admin/insert/projects" method="get">
+              <input type="submit" value="Insert into Projects table">
+            </form>
+          </th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="project : ${projects}">
           <td th:text="${project.id}" ></td>
           <td th:text="${project.ProjectName}" ></td>
-          <td>
+          <td class="crud-menu">
             <form action="/admin/view/projects" method="get">
               <input name="id" type="hidden" th:value="${project.id}">
               <input type="submit" value="view">
             </form>
           </td>
-          <td>
+          <td class="crud-menu">
             <form action="/admin/edit/projects" method="get">
               <input name="id" type="hidden" th:value="${project.id}">
               <input type="submit" value="edit">
             </form>
           </td>
-          <td>
+          <td class="crud-menu">
             <form action="/admin/delete/projects" method="get">
               <input name="id" type="hidden" th:value="${project.id}">
               <input type="submit" value="delete">
@@ -66,25 +70,21 @@
         </tr>
         </tbody>
       </table>
-      <div>
-        <form action="/admin/insert/projects" method="get">
-          <input type="submit" value="Insert into Projects table">
-        </form>
-      </div>
     </div>
 
     <div class="AdminTable" id="usersTable" style="display:none;">
-      <div>Users</div>
+      <div><h3>Users</h3></div>
       <table>
         <thead>
         <tr>
           <th>User Name</th>
           <th>Role Id</th>
           <th>Employee Id</th>
-          <th>&nbsp;</th>
-          <th>&nbsp;</th>
-          <th>&nbsp;</th>
-          <th>&nbsp;</th>
+          <th class="crud-menu" colspan="4">
+            <form action="/admin/insert/users" method="get">
+              <input type="submit" value="Insert into Users table">
+            </form>
+          </th>
         </tr>
         </thead>
         <tbody>
@@ -92,42 +92,37 @@
           <td th:text="${user.UserName}" ></td>
           <td th:text="${user.RoleID}" ></td>
           <td th:text="${user.EmployeeID}" ></td>
-          <td>
+          <td class="crud-menu">
             <form action="/admin/view/users" method="get">
               <input name="id" type="hidden" th:value="${user.UserName}">
               <input type="submit" value="view">
             </form>
           </td>
-          <td>
+          <td class="crud-menu">
             <form action="/admin/edit/users" method="get">
               <input name="id" type="hidden" th:value="${user.UserName}">
               <input type="submit" value="edit" th:style="${user.UserName} == 'Admin' ? 'visibility:hidden' : 'visibility:visible'">
             </form>
           </td>
-          <td>
+          <td class="crud-menu">
             <form action="/admin/delete/users" method="get">
               <input name="id" type="hidden" th:value="${user.UserName}">
               <input type="submit" value="delete" th:style="${user.UserName} == 'Admin' ? 'visibility:hidden' : 'visibility:visible'">
             </form>
           </td>
-          <td>
+          <td class="crud-menu">
             <form action="/admin/resetPwd" method="post">
               <input name="userName" type="hidden" th:value="${user.UserName}">
-              <input type="submit" value="Reset Pwd" th:style="${user.UserName} == 'Admin' ? 'visibility:hidden' : 'visibility:visible'">
+              <input type="submit" value="reset pwd" th:style="${user.UserName} == 'Admin' ? 'visibility:hidden' : 'visibility:visible'">
             </form>
           </td>
         </tr>
         </tbody>
       </table>
-      <div>
-        <form action="/admin/insert/users" method="get">
-          <input type="submit" value="Insert into Users table">
-        </form>
-      </div>
     </div>
 
     <div class="AdminTable" id="employeesTable" style="display:none;">
-      <div>Employees</div>
+      <div><h3>Employees</h3></div>
       <table>
         <thead>
         <tr>
@@ -138,9 +133,11 @@
           <th>Birth Place</th>
           <th>Social Security Num</th>
           <th>Residence</th>
-          <th>&nbsp;</th>
-          <th>&nbsp;</th>
-          <th>&nbsp;</th>
+          <th class="crud-menu" colspan="3">
+              <form action="/admin/insert/employees" method="get">
+                <input type="submit" value="Insert into Employees table">
+              </form>
+          </th>
         </tr>
         </thead>
         <tbody>
@@ -152,19 +149,19 @@
           <td th:text="${employee.BirthPlace}" ></td>
           <td th:text="${employee.SocialSecurityNum}" ></td>
           <td th:text="${employee.Residence}" ></td>
-          <td>
+          <td class="crud-menu">
             <form action="/admin/view/employees" method="get">
               <input name="id" type="hidden" th:value="${employee.ID}">
               <input type="submit" value="view">
             </form>
           </td>
-          <td>
+          <td class="crud-menu">
             <form action="/admin/edit/employees" method="get">
               <input name="id" type="hidden" th:value="${employee.ID}">
               <input type="submit" value="edit">
             </form>
           </td>
-          <td>
+          <td class="crud-menu">
             <form action="/admin/delete/employees" method="get">
               <input name="id" type="hidden" th:value="${employee.ID}">
               <input type="submit" value="delete">
@@ -173,15 +170,10 @@
         </tr>
         </tbody>
       </table>
-      <div>
-        <form action="/admin/insert/employees" method="get">
-          <input type="submit" value="Insert into Employees table">
-        </form>
-      </div>
     </div>
 
     <div class="AdminTable" id="rolesTable" style="display:none;">
-      <div>Roles</div>
+      <div><h3>Roles</h3></div>
       <table>
         <thead>
         <tr>
@@ -189,9 +181,11 @@
           <th>Role</th>
           <th>Is Admin</th>
           <th>Project Id</th>
-          <th>&nbsp;</th>
-          <th>&nbsp;</th>
-          <th>&nbsp;</th>
+          <th class="crud-menu" colspan="3">
+            <form action="/admin/insert/roles" method="get">
+              <input type="submit" value="Insert into Roles table">
+            </form>
+          </th>
         </tr>
         </thead>
         <tbody>
@@ -200,19 +194,19 @@
           <td th:text="${role.RoleDesc}" ></td>
           <td><input type="checkbox" th:checked="${role.IsAdmin}" onclick="return false"></td>
           <td th:text="${role.ProjectId}" ></td>
-          <td>
+          <td class="crud-menu">
             <form action="/admin/view/roles" method="get">
               <input name="id" type="hidden" th:value="${role.ID}">
               <input type="submit" value="view">
             </form>
           </td>
-          <td>
+          <td class="crud-menu">
             <form action="/admin/edit/roles" method="get">
               <input name="id" type="hidden" th:value="${role.ID}">
               <input type='submit' value='edit' th:style="(${role.RoleDesc} == 'Admin') or (${role.RoleDesc} == 'Employee') ? 'visibility:hidden' : 'visibility:visible'">
             </form>
           </td>
-          <td>
+          <td class="crud-menu">
             <form action="/admin/delete/roles" method="get">
               <input name="id" type="hidden" th:value="${role.ID}">
               <input type='submit' value='delete' th:style="(${role.RoleDesc} == 'Admin') or (${role.RoleDesc} == 'Employee') ? 'visibility:hidden' : 'visibility:visible'">
@@ -221,15 +215,10 @@
         </tr>
         </tbody>
       </table>
-      <div>
-        <form action="/admin/insert/roles" method="get">
-          <input type="submit" value="Insert into Roles table">
-        </form>
-      </div>
     </div>
 
     <div class="AdminTable" id="timesTable" style="display:none;">
-      <div>Times</div>
+      <div><h3>Times</h3></div>
       <table>
         <thead>
         <tr>
@@ -240,9 +229,11 @@
           <th>in</th>
           <th>Insert User</th>
           <th>Insert Timestamp</th>
-          <th>&nbsp;</th>
-          <th>&nbsp;</th>
-          <th>&nbsp;</th>
+          <th class="crud-menu" colspan="3">
+            <form action="/admin/insert/times" method="get">
+              <input type="submit" value="Insert into Times table">
+            </form>
+          </th>
         </tr>
         </thead>
         <tbody>
@@ -254,19 +245,19 @@
           <td><input type="checkbox" th:checked="${time.in}" onclick="return false"></td>
           <td th:text="${time.InsertUser}" ></td>
           <td th:text="${#dates.format(time.InsertTimestamp, 'dd/MM/yyyy HH:mm:ss')}"></td>
-          <td>
+          <td class="crud-menu">
             <form action="/admin/view/times" method="get">
               <input name="id" type="hidden" th:value="${time.ID}">
               <input type="submit" value="view">
             </form>
           </td>
-          <td>
+          <td class="crud-menu">
             <form action="/admin/edit/times" method="get">
               <input name="id" type="hidden" th:value="${time.ID}">
               <input type="submit" value="edit">
             </form>
           </td>
-          <td>
+          <td class="crud-menu">
             <form action="/admin/delete/times" method="get">
               <input name="id" type="hidden" th:value="${time.ID}">
               <input type="submit" value="delete">
@@ -275,16 +266,12 @@
         </tr>
         </tbody>
       </table>
-      <div>
-        <form action="/admin/insert/times" method="get">
-          <input type="submit" value="Insert into Times table">
-        </form>
-      </div>
     </div>
 
     <div class="AdminTable" id="logsTable" style="display:none;">
-      <div class="Search">
-        <div>
+      <div><h3>Logs (Read Only)</h3></div>
+      <div class="search">
+        <div class="search-title">
           Search
         </div>
         <div>
@@ -332,7 +319,6 @@
           </form>
         </div>
       </div>
-      <div>Logs (Read Only)</div>
       <table id="logsTableTable">
         <thead>
         <tr>
@@ -343,8 +329,7 @@
           <th>Old Values</th>
           <th>Undo Id</th>
           <th>Timestamp</th>
-          <th>&nbsp;</th>
-          <th>&nbsp;</th>
+          <th class="crud-menu" colspan="2">&nbsp;</th>
         </tr>
         </thead>
         <tbody>
@@ -370,16 +355,16 @@
           </td>
           <td th:text="${log.undoId}" ></td>
           <td th:text="${#dates.format(log.timestamp, 'dd/MM/yyyy HH:mm:ss')}"></td>
-          <td>
+          <td class="crud-menu">
             <form action="/admin/view/logs" method="get">
               <input name="id" type="hidden" th:value="${log.ID}">
               <input type="submit" value="view">
             </form>
           </td>
-          <td>
+          <td class="crud-menu">
             <form action="/admin/undo/logs" method="get">
               <input name="id" type="hidden" th:value="${log.ID}">
-              <input type="submit" value="Undo" th:style="${log.Operation} == 'Reset Pwd' ? 'visibility:hidden' : 'visibility:visible'">
+              <input type="submit" value="undo" th:style="${log.Operation} == 'Reset Pwd' ? 'visibility:hidden' : 'visibility:visible'">
             </form>
           </td>
         </tr>

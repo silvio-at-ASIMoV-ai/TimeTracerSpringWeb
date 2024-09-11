@@ -1,0 +1,52 @@
+table, th, td  {
+    border: 2px solid;
+    border-collapse: collapse;
+    border-color: black;
+}
+
+th, td {
+    padding: 3px;
+}
+
+tbody tr:hover {
+    background-color: teal;
+    color: white;
+    border-color: black;
+}
+
+.search {
+    border: 1px solid;
+}
+
+.search-title {
+    font-weight: bold;
+}
+
+.edit {
+    background-color: LightCyan;
+}
+
+.view {
+    background-color: aqua;
+}
+
+.crud-menu {
+    text-align: center;
+}
+
+.menu {
+    display: grid;
+    width: 100%;
+    gap: 1rem;
+}
+
+.buttons {
+    grid-row-start: 1;
+    grid-column-start: 3;
+}
+
+.adminTableChoice {
+    grid-row-start: 1;
+    grid-column-start: 1;
+}
+

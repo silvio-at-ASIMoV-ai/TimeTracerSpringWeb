@@ -2,28 +2,16 @@ body {
     background-color: powderblue;
 }
 
-div, table, h1, h2 {
+h1, h2 {
+    text-align: center;
+}
+
+div, table {
     margin: 1em 1em 1em 1em;
 }
 
 p {
     margin: 0.5em 0.5em 0.5em 0.5em;
-}
-
-table, th, td  {
-    border: 2px solid;
-    border-collapse: collapse;
-    border-color: black;
-}
-
-th, td {
-    padding: 3px;
-}
-
-tbody tr:hover {
-    background-color: teal;
-    color: white;
-    border-color: black;
 }
 
 span {
@@ -39,14 +27,3 @@ span {
     display:inline;
 }
 
-.Search {
-    border: 2px solid;
-}
-
-.edit {
-    background-color: LightCyan;
-}
-
-.view {
-    background-color: aqua;
-}
