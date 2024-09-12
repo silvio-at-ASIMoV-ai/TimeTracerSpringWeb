@@ -61,10 +61,13 @@ public class PunchController {
         String hour = dateTime.substring(18,20);
         String minute = dateTime.substring(21,23);
         String second = dateTime.substring(24,26);
-        Timestamp time = Timestamp.valueOf(year + "-" + month + "-" + day + " "
+
+        Timestamp pTime = Timestamp.valueOf(year + "-" + month + "-" + day + " "
+                + hour + ":" + minute + ":00");
+        Timestamp iTime = Timestamp.valueOf(year + "-" + month + "-" + day + " "
                 + hour + ":" + minute + ":" + second);
-        Time punchedTime = new Time(null, employeeId, chooseProject, time,
-                in, userName, time,null,null);
+        Time punchedTime = new Time(null, employeeId, chooseProject, pTime,
+                in, userName, iTime,null,null);
         times.save(punchedTime);
         if(logout) {
             return "login";

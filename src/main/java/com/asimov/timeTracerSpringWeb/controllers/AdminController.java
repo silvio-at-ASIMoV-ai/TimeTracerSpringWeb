@@ -9,6 +9,8 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static com.asimov.timeTracerSpringWeb.utils.Utility.str2Timestamp;
+
 
 @Controller
 @RequestMapping("/admin")
@@ -64,7 +66,7 @@ public class AdminController {
     }
 
     @GetMapping("/edit/{table}")
-    public String edit(@PathVariable Map<String, String> pathVariables, @RequestParam("id") String id, Model model){
+    public String edit(@PathVariable Map<String, String> pathVariables, @RequestParam("id") String id, Model model) {
         model.addAttribute("insert", false);
         model.addAttribute("table", pathVariables.get("table"));
         switch (pathVariables.get("table")) {
@@ -89,14 +91,14 @@ public class AdminController {
     }
 
     @GetMapping("/delete/{table}")
-    public String delete(@PathVariable Map<String, String> pathVariables, @RequestParam("id") String id, Model model){
+    public String delete(@PathVariable Map<String, String> pathVariables, @RequestParam("id") String id, Model model) {
         model.addAttribute("table", pathVariables.get("table"));
         model.addAttribute("id", id);
         return "delete";
     }
 
     @GetMapping("/insert/{table}")
-    public String insert(@PathVariable Map<String, String> pathVariables, Model model){
+    public String insert(@PathVariable Map<String, String> pathVariables, Model model) {
         model.addAttribute("insert", true);
         model.addAttribute("table", pathVariables.get("table"));
         return "insertEdit";
@@ -127,20 +129,26 @@ public class AdminController {
     }
 
     @PostMapping("/edit/times")
-    public String saveTime(@ModelAttribute Time time, Model model){
-        Optional<Time> oldTime = times.findById(time.ID());
-        Time newTime = new Time(time.ID(), time.EmployeeID(), time.ProjectID(),
-                time.PunchedTime(), time.in() != null ? time.in() : false, time.InsertUser(),
-                time.InsertTimestamp(),"Admin", new Timestamp(System.currentTimeMillis()));
+    public String saveTime(String ID, String EmployeeID, String ProjectID, String PunchedTime,
+                           String in, String InsertUser, String InsertTimestamp, Model model) {
+        int id = Integer.parseInt(ID);
+        int empId = Integer.parseInt(EmployeeID);
+        int projId = Integer.parseInt(ProjectID);
+        Timestamp mt = new Timestamp(System.currentTimeMillis());
+
+        Optional<Time> oldTime = times.findById(id);
+        Time newTime = new Time(id, empId, projId, str2Timestamp(PunchedTime), in != null,
+                InsertUser, str2Timestamp(InsertTimestamp, true), "Admin", mt);
+
         Log log = new Log(null,"Edit", "Time", newTime.toString(),
-                oldTime.orElse(Time.empty()).toString(),null, new Timestamp(System.currentTimeMillis()));
+                oldTime.orElse(Time.empty()).toString(),null, mt);
         times.save(newTime);
         logs.save(log);
         return goToAdminPage(model, "Time");
     }
 
     @PostMapping("/edit/employees")
-    public String saveEmployee(@ModelAttribute Employee employee, Model model){
+    public String saveEmployee(@ModelAttribute Employee employee, Model model) {
         Optional<Employee> oldEmployee = employees.findById(employee.ID());
         Employee newEmployee = new Employee(employee.ID(), employee.Name(), employee.Surname(),
                 employee.BirthDate(), employee.BirthPlace(), employee.SocialSecurityNum(),
@@ -153,7 +161,7 @@ public class AdminController {
     }
 
     @PostMapping("/edit/users")
-    public String saveUser(@ModelAttribute User user, Model model){
+    public String saveUser(@ModelAttribute User user, Model model) {
         Optional<User> oldUser = users.findByIdWithoutPassword(user.UserName());
         User newUser = new User(user.UserName(), null, null,
                 user.RoleID(), user.EmployeeID());
@@ -165,7 +173,7 @@ public class AdminController {
     }
 
     @PostMapping("/edit/projects")
-    public String saveProject(@ModelAttribute Project project, Model model){
+    public String saveProject(@ModelAttribute Project project, Model model) {
         Optional<Project> oldProject = projects.findById(project.id());
         Project newProject = new Project(project.id(), project.ProjectName());
         Log log = new Log(null,"Edit", "Project", newProject.toString(),
@@ -176,7 +184,7 @@ public class AdminController {
     }
 
     @PostMapping("/edit/roles")
-    public String saveRole(@ModelAttribute Role role, Model model){
+    public String saveRole(@ModelAttribute Role role, Model model) {
         Optional<Role> oldRole = roles.findById(role.ID());
         Role newRole = new Role(role.ID(), role.RoleDesc(), role.IsAdmin(), role.ProjectId());
         Log log = new Log(null,"Edit", "Role", newRole.toString(),
@@ -187,19 +195,25 @@ public class AdminController {
     }
 
     @PostMapping("/insert/times")
-    public String insertTime(@ModelAttribute Time time, Model model){
-        Time newTime = new Time(null, time.EmployeeID(), time.ProjectID(),
-                time.PunchedTime(), time.in(), "Admin",
-                new Timestamp(System.currentTimeMillis()),null, null);
+    public String insertTime(String EmployeeID, String ProjectID,
+                             String PunchedTime, String in, Model model) {
+
+        int empId = Integer.parseInt(EmployeeID);
+        int projId = Integer.parseInt(ProjectID);
+        Timestamp mt = new Timestamp(System.currentTimeMillis());
+
+        Time newTime = new Time(null, empId, projId, str2Timestamp(PunchedTime),
+                in != null, "Admin", mt,null, null);
+
         Time insertedTime = times.save(newTime);
-        Log log = new Log(null,"Insert", "Time", insertedTime.toString(),
-                "", null, new Timestamp(System.currentTimeMillis()));
+        Log log = new Log(null,"Insert", "Time",
+                insertedTime.toString(), "", null, mt);
         logs.save(log);
         return goToAdminPage(model, "Time");
     }
 
     @PostMapping("/insert/employees")
-    public String insertEmployee(@ModelAttribute Employee employee, Model model){
+    public String insertEmployee(@ModelAttribute Employee employee, Model model) {
         Employee newEmployee = new Employee(null, employee.Name(), employee.Surname(),
                 employee.BirthDate(), employee.BirthPlace(), employee.SocialSecurityNum(),
                 employee.Residence());
@@ -211,7 +225,7 @@ public class AdminController {
     }
 
     @PostMapping("/insert/users")
-    public String insertUser(@ModelAttribute User user, Model model){
+    public String insertUser(@ModelAttribute User user, Model model) {
         User newUser = new User(user.UserName(), null, new Timestamp(System.currentTimeMillis()),
                 user.RoleID(), user.EmployeeID());
         User insertedUser = new User(user.UserName(), null, null,
@@ -225,7 +239,7 @@ public class AdminController {
     }
 
     @PostMapping("/insert/projects")
-    public String insertProject(@ModelAttribute Project project, Model model){
+    public String insertProject(@ModelAttribute Project project, Model model) {
         Project newProject = new Project(project.id(), project.ProjectName());
         Project insertedProject = projects.save(newProject);
         Log log = new Log(null,"Insert", "Project", insertedProject.toString(),
@@ -235,7 +249,7 @@ public class AdminController {
     }
 
     @PostMapping("/insert/roles")
-    public String insertRole(@ModelAttribute Role role, Model model){
+    public String insertRole(@ModelAttribute Role role, Model model) {
         Role newRole = new Role(role.ID(), role.RoleDesc(), role.IsAdmin(), role.ProjectId());
         Role insertedRole = roles.save(newRole);
         Log log = new Log(null,"Insert", "Role", insertedRole.toString(),
@@ -245,7 +259,7 @@ public class AdminController {
     }
 
     @PostMapping("/delete/delete")
-    public String delete(String id, String table, Model model){
+    public String delete(String id, String table, Model model) {
         Log log;
         switch (table) {
             case "times":
