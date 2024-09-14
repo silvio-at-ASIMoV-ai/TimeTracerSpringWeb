@@ -58,9 +58,9 @@ public class PunchController {
         String day = dateTime.substring(6,8);
         String month = dateTime.substring(9,11);
         String year = dateTime.substring(12,16);
-        String hour = dateTime.substring(18,20);
-        String minute = dateTime.substring(21,23);
-        String second = dateTime.substring(24,26);
+        String hour = dateTime.substring(17,19);
+        String minute = dateTime.substring(20,22);
+        String second = dateTime.substring(23,25);
 
         Timestamp pTime = Timestamp.valueOf(year + "-" + month + "-" + day + " "
                 + hour + ":" + minute + ":00");
