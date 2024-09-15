@@ -16,9 +16,11 @@
     <div class="container3">
         <form action="/" method="post">
             <div>User Name: <input name="UserName"></div>
-            <div>Password: <input name="Password" type="password"></div>
+            <div>Password: <input id="pwd" name="Password" type="password"></div>
             <div><input type="submit" value="Login"></div>
+            <div id="caps-lock" style="display: none;">Caps Lock ON</div>
         </form>
     </div>
+    <script th:src="@{/scripts/capsLock.js}" type="text/javascript"></script>
     </body>
 </html>

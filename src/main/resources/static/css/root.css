@@ -27,3 +27,8 @@ span {
     display:inline;
 }
 
+#caps-lock {
+    color: red;
+    font-weight: bold;
+}
+
