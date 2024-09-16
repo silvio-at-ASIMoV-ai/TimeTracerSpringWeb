@@ -12,7 +12,7 @@
 	<artifactId>timeTracerSpringWeb</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>timeTracerSpringWeb</name>
-	<description>Time Tracer written in Java Spring and JSP</description>
+	<description>Time Tracer written in Java Spring and Thymeleaf</description>
 	<url/>
 	<licenses>
 		<license/>
