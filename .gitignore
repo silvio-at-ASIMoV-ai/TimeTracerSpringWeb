@@ -5,7 +5,7 @@ target/
 !**/src/test/**/target/
 src/main/resources/keystore/
 tmp/
-src/main/resources/*.properties
+src/main/resources/**/*.properties
 
 ### STS ###
 .apt_generated

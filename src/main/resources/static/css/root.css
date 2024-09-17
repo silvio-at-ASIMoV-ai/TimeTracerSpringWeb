@@ -32,3 +32,38 @@ span {
     font-weight: bold;
 }
 
+input[type=button] {
+    background-color:powderblue;
+    color: black;
+    border-radius:5px;
+    border-width: thin;
+    padding: 5px;
+}
+
+input[type=button]:hover {
+    background-color: #88E07C;
+}
+
+input[type=submit] {
+    background-color:powderblue;
+    color: black;
+    border-radius:5px;
+    border-width: thin;
+    padding: 5px;
+}
+
+input[type=submit]:hover {
+    background-color: #0098fe;
+}
+
+input[type=reset] {
+    background-color:powderblue;
+    color: black;
+    border-radius:5px;
+    border-width: thin;
+    padding: 5px;
+}
+
+input[type=reset]:hover {
+    background-color: #FF6F6F;
+}
