@@ -9,7 +9,7 @@ th, td {
 }
 
 tbody tr:hover {
-    background-color: teal;
+    background-color: #00B359;
     color: white;
     border-color: black;
 }
