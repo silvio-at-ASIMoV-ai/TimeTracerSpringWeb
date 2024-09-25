@@ -6,7 +6,7 @@
     <title>Title</title>
 </head>
 <body>
-<h1>Delete</h1>
+<h1>Undo</h1>
 <form action="/admin/undo" method="post">
     <div>
         Do you really want to Undo operation with id
@@ -18,7 +18,7 @@
             <input type="submit" value="Yes">
         </div>
         <div class="inline">
-            <input type="button" value="No" onclick="history.back()">
+            <input type="reset" value="No" onclick="history.back()">
         </div>
     </div>
 </form>

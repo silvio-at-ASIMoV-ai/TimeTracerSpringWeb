@@ -9,7 +9,7 @@ div {
     'title     title      title'
     'projects  fixed-data buttons'
     'projects  in-out     buttons'
-    'last-time last-time  last-time';
+    'projects  last-time  buttons';
     width:50%;
 }
 
@@ -27,6 +27,7 @@ div {
 .fixed-data {
     grid-area: fixed-data;
     width: 400px;
+    height: 100px;
     display: grid;
     align-content: center;
 }
@@ -44,6 +45,7 @@ div {
 .in-out {
     grid-area: in-out;
     display:inline;
+    height: 50px;
 }
 
 .buttons {

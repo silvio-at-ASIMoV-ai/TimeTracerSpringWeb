@@ -9,7 +9,7 @@ th, td {
 }
 
 tbody tr:hover {
-    background-color: #00B359;
+    background-color: #00CC66;
     color: white;
     border-color: black;
 }
@@ -22,12 +22,16 @@ tbody tr:hover {
     font-weight: bold;
 }
 
+input[type=text], input[type=datetime-local], input[type=date] {
+    border: 1px #767676 solid
+}
+
 .edit {
     background-color: LightCyan;
 }
 
 .view {
-    background-color: aqua;
+    background-color: LightCyan;
 }
 
 .crud-menu {

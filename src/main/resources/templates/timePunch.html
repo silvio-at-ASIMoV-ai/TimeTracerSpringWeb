@@ -37,9 +37,9 @@
       <div class="buttons">
         <input type="submit" value="OK">
         <input type="button" value="Accept" onclick="document.getElementById('logout').value='false'; document.getElementById('punchin').submit()">
-        <input type="reset" value="Cancel" onclick="window.location.href='/'">
         <input type="button" value="Remind">
         <input type="button" value="Ch. Pwd">
+        <input type="reset" value="Cancel" onclick="window.location.href='/'">
       </div>
       <div class="last-time">
         <div th:text="${lastPunchedTime}"></div>

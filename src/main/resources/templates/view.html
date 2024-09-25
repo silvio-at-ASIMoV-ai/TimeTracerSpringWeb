@@ -27,12 +27,12 @@
 
 <!-- employees table-->
 <div th:style="${table} == 'employees' ? 'display:block' : 'display:none'">
-    <div>Name <input class="view" readonly th:value="${table} == 'employees' ? ${employee.Name} : ''"></div>
-    <div>Surname <input class="view" readonly th:value="${table} == 'employees' ? ${employee.Surname} : ''"></div>
-    <div>Date of birth <input class="view" readonly th:value="${table} == 'employees' ? ${employee.BirthDate} : ''"></div>
-    <div>Place of birth <input class="view" readonly th:value="${table} == 'employees' ? ${employee.BirthPlace} : ''"></div>
-    <div>Social Security Number <input class="view" readonly th:value="${table} == 'employees' ? ${employee.SocialSecurityNum} : ''"></div>
-    <div>Residence <input class="view" readonly th:value="${table} == 'employees' ? ${employee.Residence} : ''" size="60"></div>
+    <div>Name <input type="text" class="view" readonly th:value="${table} == 'employees' ? ${employee.Name} : ''"></div>
+    <div>Surname <input type="text" class="view" readonly th:value="${table} == 'employees' ? ${employee.Surname} : ''"></div>
+    <div>Date of birth <input type="text" class="view" readonly th:value="${table} == 'employees' ? ${employee.BirthDate} : ''"></div>
+    <div>Place of birth <input type="text" class="view" readonly th:value="${table} == 'employees' ? ${employee.BirthPlace} : ''"></div>
+    <div>Social Security Number <input type="text" class="view" readonly th:value="${table} == 'employees' ? ${employee.SocialSecurityNum} : ''"></div>
+    <div>Residence <input type="text" class="view" readonly th:value="${table} == 'employees' ? ${employee.Residence} : ''" size="60"></div>
     <div>
         <form  action="back/Employee">
         <input type="submit" value="Back">
@@ -42,9 +42,9 @@
 
 <!-- users table-->
 <div th:style="${table} == 'users' ? 'display:block' : 'display:none'">
-    <div>User Name <input class="view" readonly  th:value="${table} == 'users' ? ${user.UserName} : ''"></div>
-    <div>Role ID <input class="view" readonly  th:value="${table} == 'users' ? ${user.RoleID} : ''"></div>
-    <div>Employee ID <input class="view" readonly  th:value="${table} == 'users' ? ${user.EmployeeID} : ''"></div>
+    <div>User Name <input type="text" class="view" readonly  th:value="${table} == 'users' ? ${user.UserName} : ''"></div>
+    <div>Role ID <input type="text" class="view" readonly  th:value="${table} == 'users' ? ${user.RoleID} : ''"></div>
+    <div>Employee ID <input type="text" class="view" readonly  th:value="${table} == 'users' ? ${user.EmployeeID} : ''"></div>
     <div>
         <form  action="back/User">
             <input type="submit" value="Back">
@@ -54,7 +54,7 @@
 
 <!-- projects table-->
 <div th:style="${table} == 'projects' ? 'display:block' : 'display:none'">
-    <div>Project Name <input class="view" readonly th:value="${table} == 'projects' ? ${project.ProjectName} : ''"></div>
+    <div>Project Name <input type="text" class="view" readonly th:value="${table} == 'projects' ? ${project.ProjectName} : ''"></div>
     <div>
         <form  action="back/Project">
             <input type="submit" value="Back">
@@ -64,9 +64,9 @@
 
 <!-- roles table-->
 <div th:style="${table} == 'roles' ? 'display:block' : 'display:none'">
-    <div>Role <input class="view" readonly th:value="${table} == 'roles' ? ${role.RoleDesc} : ''"></div>
+    <div>Role <input type="text" class="view" readonly th:value="${table} == 'roles' ? ${role.RoleDesc} : ''"></div>
     <div>Is Admin <input type="checkbox" onclick="return false" class="view" readonly th:checked="${table} == 'roles' ? ${role.IsAdmin} : ''"></div>
-    <div>Project ID <input class="view" readonly th:value="${table} == 'roles' ? ${role.ProjectId} : ''"></div>
+    <div>Project ID <input type="text" class="view" readonly th:value="${table} == 'roles' ? ${role.ProjectId} : ''"></div>
     <div>
         <form  action="back/Role">
             <input type="submit" value="Back">

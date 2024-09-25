@@ -33,7 +33,7 @@ span {
 }
 
 input[type=button] {
-    background-color: #96FF8C;
+    background-color: #00F279;
     color: black;
     border-radius:5px;
     border-width: thin;
@@ -41,7 +41,7 @@ input[type=button] {
 }
 
 input[type=button]:hover {
-    background-color: #50FF40;
+    background-color: #00CC66;
 }
 
 input[type=submit] {
@@ -67,3 +67,4 @@ input[type=reset] {
 input[type=reset]:hover {
     background-color: #FF4040;
 }
+
